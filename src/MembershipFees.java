@@ -4,8 +4,6 @@ import java.time.Period;
 public class MembershipFees {
 
     Member member;
-
-
     int passiveMembershipFee = 500;
     int over18MembershipFee = 1600;
     int under18MembershipFee = 1000;
@@ -15,18 +13,18 @@ public class MembershipFees {
         return Period.between(member.getBirthday(), LocalDate.now()).getYears();
     }
 
-    public int checkmemberstatus() {
+    public int checkMemberStatus() {
         int age = calculateAge();
-        if (membershipType.equals(MembershipStatus.PASSIVE)) {
+        if (member.getMembershipStatus().equals(MembershipStatus.PASSIVE)) {
             return passiveMembershipFee;
         }
-        if (membershipType.equals(MembershipStatus.ACTIVE) && age <= 18) {
+        if (member.getMembershipStatus().equals(MembershipStatus.ACTIVE) && age <= 18) {
             return under18MembershipFee;
         }
-        if (membershipType.equals(MembershipStatus.ACTIVE) && age >= 18) {
+        if (member.getMembershipStatus().equals(MembershipStatus.ACTIVE) && age >= 18) {
             return over18MembershipFee;
         }
-        if (membershipType.equals(MembershipStatus.ACTIVE) && age >= 60) {
+        if (member.getMembershipStatus().equals(MembershipStatus.ACTIVE) && age >= 60) {
             return seniorMembershipFee;
         }
     }
