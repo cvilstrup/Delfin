@@ -32,7 +32,7 @@ public class SwimmingClub {
             }
         }
 
-        // Returnerer null hvis der ikke findes et medlem med det ID
+    // Returnerer null hvis der ikke findes et medlem med det ID
         return null;
     }
 }
