@@ -25,9 +25,9 @@ public class SwimmingClub {
     }
 
 // Finder et bestemt medlem ud fra deres medlems ID
-    public Member getMember(int memberId) {
+    public Member getMember(int memberID) {
         for (Member member : members) {
-            if (memberId == member.getMemberId()) {
+            if (memberID == member.getMemberID()) {
                 return member;
             }
         }
