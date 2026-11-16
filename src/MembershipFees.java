@@ -19,8 +19,14 @@ public class MembershipFees {
         if (membershipType.equals(MembershipStatus.PASSIVE)) {
             return passiveMembershipFee;
         }
-        if (membershipType.equals(MembershipStatus.ACTIVE) && ) {
-
+        if (membershipType.equals(MembershipStatus.ACTIVE) && CalculateAge() <= 18) {
+            return under18MembershipFee;
+        }
+        if (membershipType.equals(MembershipStatus.ACTIVE) && CalculateAge() => 18) {
+            return over18MembershipFee;
+        }
+        if (membershipType.equals(MembershipStatus.ACTIVE) && CalculateAge() => 60) {
+        }
         }
     }
 }
