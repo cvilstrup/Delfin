@@ -55,10 +55,10 @@ public class ConsoleUI {
         String name = IO.readln("Enter name: ");
 
     //Modtager medlems ID fra brugeren:
-        int memberId = Integer.parseInt(IO.readln("Enter member ID: "));
+        int memberID = Integer.parseInt(IO.readln("Enter member ID: "));
 
     //Opretter et nyt medlem med navn og ID:
-        Member member = new Member(name, memberId);
+        Member member = new Member(name, memberID);
 
     //Tilføjer medlemmet til svømmeklubben:
         SwimmingClub.addMember(member);
