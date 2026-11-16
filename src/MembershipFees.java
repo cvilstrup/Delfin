@@ -11,7 +11,7 @@ public class MembershipFees {
     int under18MembershipFee = 1000;
     int seniorMembershipFee = 1200;
 
-    int CalculateAge (){
+    int CalculateAge() {
 
     }
 
@@ -19,7 +19,8 @@ public class MembershipFees {
         if (membershipType.equals(MembershipStatus.PASSIVE)) {
             return passiveMembershipFee;
         }
-        if (membershipType.equals(MembershipStatus.ACTIVE)&& LocalDate)
+        if (membershipType.equals(MembershipStatus.ACTIVE) && ) {
 
+        }
     }
 }
