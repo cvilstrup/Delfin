@@ -5,6 +5,7 @@ public class Member {
     private String name;
     private LocalDate birthday;
     private String email;
+    private MembershipStatus membershipStatus; //aktiv eller passiv
 
     public int getMemberID() {
         return memberID;
@@ -20,5 +21,9 @@ public class Member {
 
     public String getEmail() {
         return email;
+    }
+
+    public MembershipStatus getMembershipStatus(){
+        return membershipStatus;
     }
 }
