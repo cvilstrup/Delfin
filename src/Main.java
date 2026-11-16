@@ -17,5 +17,4 @@ void main() {
 
 // Starter ConesoleUI så brugerne kan bruge vores system
     consoleUI.run();
-
 }

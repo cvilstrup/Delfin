@@ -67,5 +67,4 @@ public class ConsoleUI {
         IO.println("Member successfully registered: " + member);
 
     }
-
 }
