@@ -1,10 +1,9 @@
-import java.util.ArrayList;
-
 public class ConsoleUI {
+
 // Gemmer svømmeklubben som ConsoleUI skal arbejde med
     private SwimmingClub swimmingClub;
 
-// Tilføjer library til konstruktøren
+// Tilføjer swimmingClub til konstruktøren
     public ConsoleUI(SwimmingClub swimmingClub) {
         this.swimmingClub = swimmingClub;
     }
@@ -13,58 +12,142 @@ public class ConsoleUI {
     public void run() {
         boolean running = true;
 
-    // Forsætter med at vise menuen så længe programmet kører
+    // Fortsætter med at vise menuen så længe programmet kører
         while (running) {
 
-        // Viser menuen til brugeren
+        // Viser hovedmenuen til brugeren
             showMenu();
 
         // Modtager valg fra brugeren
-            int choice = Integer.parseInt(IO.readln("Choose an option: "));
+            int choice = readChoice("Vælg bruger: ");
 
         // Bestemmer hvad der skal ske ud fra brugerens valg
             switch (choice) {
-                case 1 -> ();
-                case 2 -> ();
-                case 3 -> ();
-                case 4 -> ();
+                case 1 -> chairmanMenu();
+                case 2 -> cashierMenu();
+                case 3 -> memberMenu();
                 case 0 -> running = false;
-                default -> IO.println("Invalid choice. Please try again.");
+                default -> IO.println("Ugyldigt valg, prøv venligst igen");
             }
         }
     }
 
-    // Viser de forskellige valgmuligheder i Menu
+// Viser de forskellige valgmuligheder i hovedmenuen
     private void showMenu() {
         IO.println();
-        IO.println("1. ");
-        IO.println("2. ");
-        IO.println("3. ");
-        IO.println("4. ");
+        IO.println("=== Hovedmenu ===");
+        IO.println("1. Formand");
+        IO.println("2. Kasserer");
+        IO.println("3. Medlem");
         IO.println("0. Afslut");
         IO.println();
     }
 
-//User story 1:
-//Lader "admin" registrere et nyt medlem:
+// Viser formandens menu
+    private void chairmanMenu() {
+        boolean inMenu = true;
+
+    // Fortsætter med at vise formandens menu
+        while (inMenu) {
+
+            IO.println();
+            IO.println("=== Formand Menu ===");
+            IO.println("1. Opret medlem");
+            IO.println("2. Vis medlemmer");
+            IO.println("0. Tilbage til hovedmenu");
+            IO.println();
+
+            int choice = readChoice("Vælg handling: ");
+
+            switch (choice) {
+                case 1 -> registerMember();
+                case 2 -> IO.println("Vis medlemmer");
+                case 0 -> inMenu = false;
+                default -> IO.println("Ugyldigt valg, prøv igen");
+            }
+        }
+    }
+
+// User story 1:
+// Lader formanden registrere et nyt medlem
     private void registerMember() {
         IO.println();
-        IO.println("--- Register a New member ---");
+        IO.println("--- Opret medlem ---");
 
-    //Modtager navnet fra brugeren:
+    // Modtager navnet fra brugeren
         String name = IO.readln("Enter name: ");
 
-    //Modtager medlems ID fra brugeren:
-        int memberID = Integer.parseInt(IO.readln("Enter member ID: "));
+    // Modtager medlems ID fra brugeren
+        int memberId = readChoice("Enter member ID: ");
 
-    //Opretter et nyt medlem med navn og ID:
-        Member member = new Member(name, memberID);
+    // Opretter et nyt medlem med navn og ID
+        Member member = new Member(name, memberId);
 
-    //Tilføjer medlemmet til svømmeklubben:
-        SwimmingClub.addMember(member);
+    // Tilføjer medlemmet til svømmeklubben
+        swimmingClub.addMember(member);
 
         IO.println();
         IO.println("Member successfully registered: " + member);
+    }
 
+// Viser kassererens menu
+    private void cashierMenu() {
+        boolean inMenu = true;
+
+        while (inMenu) {
+
+            IO.println();
+            IO.println("=== Kasserer Menu ===");
+            IO.println("1. Vis kontingenter");
+            IO.println("2. Vis medlemmer i restance");
+            IO.println("0. Tilbage til hovedmenu");
+            IO.println();
+
+            int choice = readChoice("Vælg handling: ");
+
+            switch (choice) {
+                case 1 -> IO.println("Vis kontingenter");
+                case 2 -> IO.println("Vis medlemmer i restance");
+                case 0 -> inMenu = false;
+                default -> IO.println("Ugyldigt valg, prøv igen");
+            }
+        }
+    }
+
+// Viser medlemmets menu
+    private void memberMenu() {
+        boolean inMenu = true;
+
+        while (inMenu) {
+
+            IO.println();
+            IO.println("=== Medlem Menu ===");
+            IO.println("0. Tilbage til hovedmenu");
+            IO.println();
+
+            int choice = readChoice("Vælg handling: ");
+
+            switch (choice) {
+                case 0 -> inMenu = false;
+                default -> IO.println("Ugyldigt valg, prøv igen");
+            }
+        }
+    }
+
+// Læser brugerens valg og håndterer ugyldigt input
+    private int readChoice(String message) {
+        try {
+            return Integer.parseInt(IO.readln(message));
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
+    public SwimmingClub getSwimmingClub() {
+        return swimmingClub;
+    }
+
+    public void setSwimmingClub(SwimmingClub swimmingClub) {
+        this.swimmingClub = swimmingClub;
     }
 }

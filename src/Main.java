@@ -3,7 +3,6 @@ void main() {
 // Her bliver svømmeklubben oprettet
     SwimmingClub swimmingClub = new SwimmingClub();
 
-
 // Her opretter vi ConsoleUI og giver den adgang til biblioteket
     ConsoleUI consoleUI = new ConsoleUI(swimmingClub);
 
