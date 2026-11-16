@@ -170,6 +170,17 @@ public class ConsoleUI {
         }
     }
 
+    private MembershipStatus readChoiceMembershipStatus(String message) {
+        while (true) {
+            try {
+                String input = IO.readln(message).trim().toUpperCase();
+                return MembershipStatus.valueOf(input);
+            } catch (IllegalArgumentException e) {
+                IO.println("Fejl: Ugyldig medlemsstatus. Skriv enten ACTIVE eller PASSIVE.");
+            }
+        }
+    }
+
     public SwimmingClub getSwimmingClub() {
         return swimmingClub;
     }
