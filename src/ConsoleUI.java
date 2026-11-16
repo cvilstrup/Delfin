@@ -1,3 +1,7 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 public class ConsoleUI {
 
 // Gemmer svømmeklubben som ConsoleUI skal arbejde med
@@ -78,10 +82,20 @@ public class ConsoleUI {
         String name = IO.readln("Enter name: ");
 
     // Modtager medlems ID fra brugeren
-        int memberId = readChoice("Enter member ID: ");
+        int memberID = readChoice("Enter member ID: ");
+
+    //Modtager medlems ID fra brugeren
+        LocalDate birthday = readChoiceBirthday("Enter birthday (YYYY-MM-DD): ");
+
+    //Modtager medlems ID fra brugeren
+        String email = IO.readln("Enter email: ");
+
+    //Modtager medlems ID fra brugeren
+        MembershipStatus membershipStatus = readChoiceMembershipStatus("Enter membershipstatus: ");
+        //aktiv eller passiv
 
     // Opretter et nyt medlem med navn og ID
-        Member member = new Member(name, memberId);
+        Member member = new Member(memberID, name, birthday, email, membershipStatus);
 
     // Tilføjer medlemmet til svømmeklubben
         swimmingClub.addMember(member);
@@ -140,6 +154,19 @@ public class ConsoleUI {
             return Integer.parseInt(IO.readln(message));
         } catch (NumberFormatException e) {
             return -1;
+        }
+    }
+
+    private LocalDate readChoiceBirthday(String message) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("DD-MM-ÅÅÅÅ");
+
+        while (true) {
+            try {
+                String input = IO.readln(message);
+                return LocalDate.parse(input, formatter);
+            } catch (DateTimeParseException e) {
+                IO.println("Fejl: Ugyldig dato. Brug formatet DD-MM-ÅÅÅÅ (f.eks. 15-05-1995).");
+            }
         }
     }
 

@@ -7,6 +7,14 @@ public class Member {
     private String email;
     private MembershipStatus membershipStatus; //aktiv eller passiv
 
+    public Member(int memberID, String name, LocalDate birthday, String email, MembershipStatus membershipStatus){
+        this.memberID = memberID;
+        this.name = name;
+        this.birthday = birthday;
+        this.email = email;
+        this.membershipStatus = membershipStatus;
+    }
+
     public int getMemberID() {
         return memberID;
     }
