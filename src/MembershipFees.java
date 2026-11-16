@@ -11,8 +11,8 @@ public class MembershipFees {
     int under18MembershipFee = 1000;
     int seniorMembershipFee = 1200;
 
-    int CalculateAge() {
-
+    int calculateAge() {
+        return ge
     }
 
     public int checkmemberstatus() {
