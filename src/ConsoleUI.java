@@ -65,8 +65,26 @@ public class ConsoleUI {
 
             switch (choice) {
                 case 1 -> registerMember();
-                case 2 -> IO.println("Vis medlemmer");
+                case 2 -> showMembers();
                 case 0 -> inMenu = false;
+                default -> IO.println("Ugyldigt valg, prøv igen");
+            }
+        }
+    }
+
+    private void showMembers(){
+        boolean inList = true;
+
+        while (inList){
+            IO.println("=== Medlemmer ===");
+            IO.println();
+            swimmingClub.printMembers();
+            IO.println();
+
+            int choice = readChoice("Tast 0 for at gå tilbage: ");
+
+            switch (choice) {
+                case 0 -> inList = false;
                 default -> IO.println("Ugyldigt valg, prøv igen");
             }
         }
