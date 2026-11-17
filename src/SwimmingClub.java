@@ -33,4 +33,11 @@ public class SwimmingClub {
     // Returnerer null hvis der ikke findes et medlem med det ID
         return null;
     }
+
+    public void calculateRevenue(){
+        int totalRevenue = 0;
+        for (Member member : members){
+            totalRevenue += member.getMembershipFee();
+        }
+    }
 }
