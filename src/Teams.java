@@ -10,7 +10,8 @@ public class Teams {
         int age = Period.between(member.getBirthday(), LocalDate.now()).getYears();
         if (age < 18) {
             juniorTeam.add(member);
-            if (age) {
+            if (age >= 18) {
+                seinorTeam.add(member);
 
             } else {
                 throw new IllegalStateException("Unknown membership status");
