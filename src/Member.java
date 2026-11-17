@@ -66,4 +66,14 @@ public class Member {
         public MembershipStatus getMembershipStatus () {
             return membershipStatus;
         }
+
+        public String toString(){
+        return String.format("""
+                Navn: %s
+                Medlems-ID: %d
+                Fødselsdag: %s
+                E-mail: %s
+                Status af medlemsskab: %s""",name, memberID, birthday, email, membershipStatus);
+        }
+
     }
