@@ -7,4 +7,10 @@ public class CompetitionSwimmer extends Member {
         super(name, birthday, email);
         this.trainer = trainer;
     }
-}
+    public static String getHold (int age) {
+        if (age < 18) {
+            return "Ungdomsholdet";
+        } else {
+            return "Seniorholdet";
+        }
+    }}
