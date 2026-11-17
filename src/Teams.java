@@ -12,7 +12,6 @@ public class Teams {
             juniorTeam.add(member);
             if (age >= 18) {
                 seinorTeam.add(member);
-
             } else {
                 throw new IllegalStateException("Unknown membership status");
             }
