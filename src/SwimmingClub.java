@@ -11,7 +11,6 @@ public class SwimmingClub {
         members.add(member);
     }
 
-// Getters
 // Henter array listen med alle medlemmer i svømmeklubben
     public List<Member> getMembers() {
         return members;
@@ -31,7 +30,6 @@ public class SwimmingClub {
                 return member;
             }
         }
-
     // Returnerer null hvis der ikke findes et medlem med det ID
         return null;
     }
