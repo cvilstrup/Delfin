@@ -95,7 +95,7 @@ public class ConsoleUI {
         //aktiv eller passiv
 
     // Opretter et nyt medlem med navn og ID
-        Member member = new Member(memberID, name, birthday, email);
+        Member member = new Member(name, birthday, email);
 
     // Tilføjer medlemmet til svømmeklubben
         swimmingClub.addMember(member);
