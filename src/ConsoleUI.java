@@ -94,7 +94,7 @@ public class ConsoleUI {
         swimmingClub.addMember(member);
 
         IO.println();
-        IO.println("Medlemmet blev oprettet: " + member);
+        IO.println("Medlemmet blev oprettet: \n" + member);
     }
 
 // Viser kassererens menu
