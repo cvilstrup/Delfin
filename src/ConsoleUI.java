@@ -99,14 +99,17 @@ public class ConsoleUI {
     // Modtager navnet fra brugeren
         String name = IO.readln("Indtast navn: ");
 
-    //Modtager medlems ID fra brugeren
+    //Modtager fødselsdag fra brugeren
         LocalDate birthday = readChoiceBirthday("Indtast fødselsdag (DD-MM-ÅÅÅÅ): ");
 
-    //Modtager medlems ID fra brugeren
+    //Modtager email fra brugeren
         String email = IO.readln("Indtast email: ");
 
+    //Modtager et kodeord fra brugeren
+        String password = IO.readln("Opret og indtast adgangskode: ");
+
     // Opretter et nyt medlem med navn og ID
-        Member member = new Member(name, birthday, email);
+        Member member = new Member(name, birthday, email, password);
 
     // Tilføjer medlemmet til svømmeklubben
         swimmingClub.addMember(member);
@@ -147,14 +150,53 @@ public class ConsoleUI {
 
             IO.println();
             IO.println("=== Medlem Menu ===");
+            IO.println();
+            IO.println("1. Se info om mit medlemskab");
             IO.println("0. Tilbage til hovedmenu");
             IO.println();
 
             int choice = readChoice("Vælg handling: ");
 
             switch (choice) {
+                case 1 -> showIndividualMemberInfo();
                 case 0 -> inMenu = false;
                 default -> IO.println("Ugyldigt valg, prøv igen");
+            }
+        }
+    }
+
+    private void showIndividualMemberInfo(){
+        boolean inMenu = true;
+
+        while (inMenu) {
+            String typedEmail = IO.readln("Indtast din e-mail: ");
+            String typedPassword = IO.readln("Indtast din adgangskode: ");
+
+            Member foundMember = null;
+
+            for (Member member : swimmingClub.members) {
+                if (typedEmail.equalsIgnoreCase(member.getEmail()) && typedPassword.equals(member.getPassword())) {
+                    foundMember = member;
+                    break;
+                }
+            }
+
+            if (foundMember != null) {
+                IO.println("Velkommen, " + foundMember.getName() + "😁");
+                IO.println();
+                IO.println("Medlems-ID: " + foundMember.getMemberID());
+                IO.println("Fødselsdag: " + foundMember.getBirthday());
+                IO.println("Medlemsstatus: " + foundMember.getMembershipStatus());
+                IO.println();
+                IO.println("Du betaler x kr. i kontingent. Abonnementet fornyes 1 jan. 2027");
+
+                inMenu = false;
+            } else if (swimmingClub.members.isEmpty()) {
+                IO.println();
+                IO.println("Der eksisterer ingen medlemmer i svømmeklubben (endnu)");
+                IO.println();
+            } else {
+                IO.println("Forkert e-mail eller adgangskode. Prøv igen.");
             }
         }
     }

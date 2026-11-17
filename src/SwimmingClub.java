@@ -4,7 +4,7 @@ import java.util.List;
 public class SwimmingClub {
 
 // Opretter ArrayLists til at holde styr på swømmeklubbens medlemmer ...
-    private List<Member> members = new ArrayList<>();
+    public List<Member> members = new ArrayList<>();
 
 // Tilføjer et medlem til svømmeklubbens liste over medlemmer
     public void addMember(Member member) {
