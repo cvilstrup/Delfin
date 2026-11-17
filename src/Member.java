@@ -6,14 +6,16 @@ public class Member {
     private String name;
     private LocalDate birthday;
     private String email;
+    private String password;
     private MembershipStatus membershipStatus; //aktiv eller passiv
     private int membershipFee;
 
     private static int nextMemberID = 1;
-    public Member(String name, LocalDate birthday, String email) {
+    public Member(String name, LocalDate birthday, String email, String password) {
         this.name = name;
         this.birthday = birthday;
         this.email = email;
+        this.password = password;
         membershipStatus = MembershipStatus.ACTIVE;
         membershipFee = calculateMemberFee();
         memberID = nextMemberID++;
@@ -63,6 +65,10 @@ public class Member {
             return email;
         }
 
+        public String getPassword () {
+            return password;
+        }
+
         public MembershipStatus getMembershipStatus () {
             return membershipStatus;
         }
@@ -73,7 +79,8 @@ public class Member {
                 Medlems-ID: %d
                 Fødselsdag: %s
                 E-mail: %s
-                Status af medlemsskab: %s""",name, memberID, birthday, email, membershipStatus);
+                Kodeord: %s
+                Status af medlemsskab: %s""",name, memberID, birthday, email, password, membershipStatus);
         }
 
     }
