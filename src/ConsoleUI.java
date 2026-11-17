@@ -81,18 +81,11 @@ public class ConsoleUI {
     // Modtager navnet fra brugeren
         String name = IO.readln("Indtast navn: ");
 
-    // Modtager medlems ID fra brugeren
-        int memberID = readChoice("Indtast medlems ID: ");
-
     //Modtager medlems ID fra brugeren
         LocalDate birthday = readChoiceBirthday("Indtast fødselsdag (DD-MM-ÅÅÅÅ): ");
 
     //Modtager medlems ID fra brugeren
         String email = IO.readln("Indtast email: ");
-
-    //Modtager medlems ID fra brugeren
-        MembershipStatus membershipStatus = readChoiceMembershipStatus("Indtast status på medlemsskab: ");
-        //aktiv eller passiv
 
     // Opretter et nyt medlem med navn og ID
         Member member = new Member(name, birthday, email);
@@ -166,17 +159,6 @@ public class ConsoleUI {
                 return LocalDate.parse(input, formatter);
             } catch (DateTimeParseException e) {
                 IO.println("Fejl: Ugyldig dato. Brug formatet DD-MM-ÅÅÅÅ (f.eks. 15-05-1995).");
-            }
-        }
-    }
-
-    private MembershipStatus readChoiceMembershipStatus(String message) {
-        while (true) {
-            try {
-                String input = IO.readln(message).trim().toUpperCase();
-                return MembershipStatus.valueOf(input);
-            } catch (IllegalArgumentException e) {
-                IO.println("Fejl: Ugyldig medlemsstatus. Skriv enten ACTIVE eller PASSIVE.");
             }
         }
     }
