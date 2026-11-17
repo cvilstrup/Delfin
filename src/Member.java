@@ -9,13 +9,14 @@ public class Member {
     private MembershipStatus membershipStatus; //aktiv eller passiv
     private int membershipFee;
 
-
+    private static int nextMemberID = 1;
     public Member(String name, LocalDate birthday, String email) {
         this.name = name;
         this.birthday = birthday;
         this.email = email;
         membershipStatus = MembershipStatus.ACTIVE;
         membershipFee = calculateMemberFee();
+        memberID = nextMemberID++;
     }
 
     public int calculateMemberFee() {
