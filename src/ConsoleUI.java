@@ -79,19 +79,19 @@ public class ConsoleUI {
         IO.println("--- Opret medlem ---");
 
     // Modtager navnet fra brugeren
-        String name = IO.readln("Enter name: ");
+        String name = IO.readln("Indtast navn: ");
 
     // Modtager medlems ID fra brugeren
-        int memberID = readChoice("Enter member ID: ");
+        int memberID = readChoice("Indtast medlems ID: ");
 
     //Modtager medlems ID fra brugeren
-        LocalDate birthday = readChoiceBirthday("Enter birthday (YYYY-MM-DD): ");
+        LocalDate birthday = readChoiceBirthday("Indtast fødselsdag (DD-MM-ÅÅÅÅ): ");
 
     //Modtager medlems ID fra brugeren
-        String email = IO.readln("Enter email: ");
+        String email = IO.readln("Indtast email: ");
 
     //Modtager medlems ID fra brugeren
-        MembershipStatus membershipStatus = readChoiceMembershipStatus("Enter membershipstatus: ");
+        MembershipStatus membershipStatus = readChoiceMembershipStatus("Indtast status på medlemsskab: ");
         //aktiv eller passiv
 
     // Opretter et nyt medlem med navn og ID
@@ -101,7 +101,7 @@ public class ConsoleUI {
         swimmingClub.addMember(member);
 
         IO.println();
-        IO.println("Member successfully registered: " + member);
+        IO.println("Medlemmet blev oprettet: " + member);
     }
 
 // Viser kassererens menu
@@ -158,7 +158,7 @@ public class ConsoleUI {
     }
 
     private LocalDate readChoiceBirthday(String message) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("DD-MM-ÅÅÅÅ");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
         while (true) {
             try {
