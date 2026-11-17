@@ -20,6 +20,7 @@ public class SwimmingClub {
     public void printMembers() {
         for (Member member : members) {
             IO.println(member);
+            IO.println();
         }
     }
 
