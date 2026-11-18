@@ -3,7 +3,7 @@ import java.util.List;
 
 public class SwimmingClub {
 
-    Teams teams = new Teams();
+    Team team = new Team();
 
 // Opretter ArrayLists til at holde styr på swømmeklubbens medlemmer ...
     private List<Member> members = new ArrayList<>();
