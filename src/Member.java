@@ -48,6 +48,9 @@ public class Member {
         throw new IllegalStateException("Unknown membership status");
     }
 
+    public int getMembershipFee() {
+        return membershipFee;
+    }
 
     public int getMemberID () {
             return memberID;
