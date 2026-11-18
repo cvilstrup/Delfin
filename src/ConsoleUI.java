@@ -6,10 +6,12 @@ public class ConsoleUI {
 
 // Gemmer svømmeklubben som ConsoleUI skal arbejde med
     private SwimmingClub swimmingClub;
+    private Chairman chairman;
 
 // Tilføjer swimmingClub til konstruktøren
-    public ConsoleUI(SwimmingClub swimmingClub) {
+    public ConsoleUI(SwimmingClub swimmingClub, Chairman chairman) {
         this.swimmingClub = swimmingClub;
+        this.chairman = chairman;
     }
 
 // Starter ConsoleUI
@@ -40,6 +42,7 @@ public class ConsoleUI {
     private void showMenu() {
         IO.println();
         IO.println("=== Hovedmenu ===");
+        IO.println();
         IO.println("1. Formand");
         IO.println("2. Kasserer");
         IO.println("3. Medlem");
@@ -54,20 +57,40 @@ public class ConsoleUI {
     // Fortsætter med at vise formandens menu
         while (inMenu) {
 
-            IO.println();
-            IO.println("=== Formand Menu ===");
-            IO.println("1. Opret medlem");
-            IO.println("2. Vis medlemmer");
-            IO.println("0. Tilbage til hovedmenu");
-            IO.println();
+            String typedEmail = IO.readln("Indtast din e-mail: ");
+            String typedPassword = IO.readln("Indtast din adgangskode: ");
 
-            int choice = readChoice("Vælg handling: ");
+            Chairman foundChairman = null;
 
-            switch (choice) {
-                case 1 -> registerMember();
-                case 2 -> showMembers();
-                case 0 -> inMenu = false;
-                default -> IO.println("Ugyldigt valg, prøv igen");
+            if (typedEmail.equalsIgnoreCase(chairman.getChairmanEmail()) && typedPassword.equals(chairman.getChairmanPassword())){
+                foundChairman = chairman;
+            }
+
+            if (foundChairman != null) {
+                IO.println();
+                IO.println("Velkommen, " + foundChairman.getName() + "😁");
+
+                IO.println();
+                IO.println("=== Formand Menu ===");
+                IO.println();
+                IO.println("1. Opret medlem");
+                IO.println("2. Vis medlemmer");
+                IO.println("0. Tilbage til hovedmenu");
+                IO.println();
+
+                int choice = readChoice("Vælg handling: ");
+
+                switch (choice) {
+                    case 1 -> registerMember();
+                    case 2 -> showMembers();
+                    case 0 -> inMenu = false;
+                    default -> IO.println("Ugyldigt valg, prøv igen");
+                }
+
+            } else {
+                IO.println();
+                IO.println("Forkert e-mail eller adgangskode. Prøv igen.");
+                IO.println();
             }
         }
     }
