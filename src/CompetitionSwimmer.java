@@ -3,10 +3,10 @@ import java.time.Period;
 
 public class CompetitionSwimmer extends Member {
     private Team team;
-    public CompetitionSwimmer(String name, LocalDate birthday, String email, String password,
+    public CompetitionSwimmer(String name, LocalDate birthday, String email, String password, LocalDate renewalDate,
                               JuniorTeam juniorTeam, SeniorTeam seniorTeam)
     {
-        super(name, birthday, email,password);
+        super(name, birthday, email,password, renewalDate);
         calculateTeam(juniorTeam, seniorTeam);
     }
 

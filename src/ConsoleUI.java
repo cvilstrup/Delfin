@@ -1,6 +1,7 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Locale;
 
 public class ConsoleUI {
 
@@ -127,8 +128,10 @@ public class ConsoleUI {
         //Modtager et kodeord fra brugeren
         String password = IO.readln("Opret og indtast adgangskode: ");
 
+        LocalDate renewalDate = LocalDate.now();
+
         // Opretter et nyt medlem med navn og ID
-        Member member = new Member(name, birthday, email, password);
+        Member member = new Member(name, birthday, email, password, renewalDate);
 
         // Tilføjer medlemmet til svømmeklubben
         swimmingClub.addMember(member);
@@ -186,6 +189,7 @@ public class ConsoleUI {
 
     private void showIndividualMemberInfo() {
         boolean inMenu = true;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.forLanguageTag("da-DK"));
 
         while (inMenu) {
             String typedEmail = IO.readln("Indtast din e-mail: ");
@@ -201,13 +205,15 @@ public class ConsoleUI {
             }
 
             if (foundMember != null) {
+                String nextRenewal = foundMember.getRenewalDate().plusYears(1).format(formatter);
+
                 IO.println("Velkommen, " + foundMember.getName() + "😁");
                 IO.println();
                 IO.println("Medlems-ID: " + foundMember.getMemberID());
-                IO.println("Fødselsdag: " + foundMember.getBirthday());
+                IO.println("Fødselsdag: " + foundMember.getBirthday().format(formatter));
                 IO.println("Medlemsstatus: " + foundMember.getMembershipStatus());
                 IO.println();
-                IO.println("Du betaler x kr. i kontingent. Abonnementet fornyes 1 jan. 2027");
+                IO.println("Du betaler " + foundMember.getMembershipFee() +" kr. i kontingent. Dit abonnementet fornyes d. " + nextRenewal);
 
                 inMenu = false;
             } else if (swimmingClub.members.isEmpty()) {
