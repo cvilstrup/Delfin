@@ -10,7 +10,6 @@ public class CompetitionSwimmer extends Member {
         calculateTeam(juniorTeam, seniorTeam);
     }
 
-
     private void calculateTeam(JuniorTeam juniorTeam, SeniorTeam seniorTeam) {
         int age = Period.between(getBirthday(), LocalDate.now()).getYears();
         if (age < 18) {
@@ -20,6 +19,7 @@ public class CompetitionSwimmer extends Member {
         }
         team.addMember(this);
     }
+
     public Team getTeam() {
         return team;
     }
