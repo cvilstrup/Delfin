@@ -4,30 +4,30 @@ import java.time.format.DateTimeParseException;
 
 public class ConsoleUI {
 
-// Gemmer svømmeklubben som ConsoleUI skal arbejde med
+    // Gemmer svømmeklubben som ConsoleUI skal arbejde med
     private SwimmingClub swimmingClub;
     private Chairman chairman;
 
-// Tilføjer swimmingClub til konstruktøren
+    // Tilføjer swimmingClub til konstruktøren
     public ConsoleUI(SwimmingClub swimmingClub, Chairman chairman) {
         this.swimmingClub = swimmingClub;
         this.chairman = chairman;
     }
 
-// Starter ConsoleUI
+    // Starter ConsoleUI
     public void run() {
         boolean running = true;
 
-    // Fortsætter med at vise menuen så længe programmet kører
+        // Fortsætter med at vise menuen så længe programmet kører
         while (running) {
 
-        // Viser hovedmenuen til brugeren
+            // Viser hovedmenuen til brugeren
             showMenu();
 
-        // Modtager valg fra brugeren
+            // Modtager valg fra brugeren
             int choice = readChoice("Vælg bruger: ");
 
-        // Bestemmer hvad der skal ske ud fra brugerens valg
+            // Bestemmer hvad der skal ske ud fra brugerens valg
             switch (choice) {
                 case 1 -> chairmanMenu();
                 case 2 -> cashierMenu();
@@ -38,7 +38,7 @@ public class ConsoleUI {
         }
     }
 
-// Viser de forskellige valgmuligheder i hovedmenuen
+    // Viser de forskellige valgmuligheder i hovedmenuen
     private void showMenu() {
         IO.println();
         IO.println("=== Hovedmenu ===");
@@ -50,25 +50,21 @@ public class ConsoleUI {
         IO.println();
     }
 
-// Viser formandens menu
+    // Viser formandens menu
     private void chairmanMenu() {
-        boolean inMenu = true;
 
-    // Fortsætter med at vise formandens menu
-        while (inMenu) {
+        String typedEmail = IO.readln("Indtast din e-mail: ");
+        String typedPassword = IO.readln("Indtast din adgangskode: ");
 
-            String typedEmail = IO.readln("Indtast din e-mail: ");
-            String typedPassword = IO.readln("Indtast din adgangskode: ");
+        if (typedEmail.equalsIgnoreCase(chairman.getChairmanEmail()) && typedPassword.equals(chairman.getChairmanPassword())) {
 
-            Chairman foundChairman = null;
+            IO.println();
+            IO.println("Velkommen, " + chairman.getName() + "😁");
 
-            if (typedEmail.equalsIgnoreCase(chairman.getChairmanEmail()) && typedPassword.equals(chairman.getChairmanPassword())){
-                foundChairman = chairman;
-            }
+            boolean inMenu = true;
 
-            if (foundChairman != null) {
-                IO.println();
-                IO.println("Velkommen, " + foundChairman.getName() + "😁");
+            // Fortsætter med at vise formandens menu
+            while (inMenu) {
 
                 IO.println();
                 IO.println("=== Formand Menu ===");
@@ -86,19 +82,19 @@ public class ConsoleUI {
                     case 0 -> inMenu = false;
                     default -> IO.println("Ugyldigt valg, prøv igen");
                 }
-
-            } else {
-                IO.println();
-                IO.println("Forkert e-mail eller adgangskode. Prøv igen.");
-                IO.println();
             }
+
+        } else {
+            IO.println();
+            IO.println("Forkert e-mail eller adgangskode. Prøv igen.");
+            IO.println();
         }
     }
 
-    private void showMembers(){
+    private void showMembers() {
         boolean inList = true;
 
-        while (inList){
+        while (inList) {
             IO.println("=== Medlemmer ===");
             IO.println();
             swimmingClub.printMembers();
@@ -113,35 +109,35 @@ public class ConsoleUI {
         }
     }
 
-// User story 1:
+    // User story 1:
 // Lader formanden registrere et nyt medlem
     private void registerMember() {
         IO.println();
         IO.println("--- Opret medlem ---");
 
-    // Modtager navnet fra brugeren
+        // Modtager navnet fra brugeren
         String name = IO.readln("Indtast navn: ");
 
-    //Modtager fødselsdag fra brugeren
+        //Modtager fødselsdag fra brugeren
         LocalDate birthday = readChoiceBirthday("Indtast fødselsdag (DD-MM-ÅÅÅÅ): ");
 
-    //Modtager email fra brugeren
+        //Modtager email fra brugeren
         String email = IO.readln("Indtast email: ");
 
-    //Modtager et kodeord fra brugeren
+        //Modtager et kodeord fra brugeren
         String password = IO.readln("Opret og indtast adgangskode: ");
 
-    // Opretter et nyt medlem med navn og ID
+        // Opretter et nyt medlem med navn og ID
         Member member = new Member(name, birthday, email, password);
 
-    // Tilføjer medlemmet til svømmeklubben
+        // Tilføjer medlemmet til svømmeklubben
         swimmingClub.addMember(member);
 
         IO.println();
         IO.println("Medlemmet blev oprettet: \n" + member);
     }
 
-// Viser kassererens menu
+    // Viser kassererens menu
     private void cashierMenu() {
         boolean inMenu = true;
 
@@ -165,7 +161,7 @@ public class ConsoleUI {
         }
     }
 
-// Viser medlemmets menu
+    // Viser medlemmets menu
     private void memberMenu() {
         boolean inMenu = true;
 
@@ -188,7 +184,7 @@ public class ConsoleUI {
         }
     }
 
-    private void showIndividualMemberInfo(){
+    private void showIndividualMemberInfo() {
         boolean inMenu = true;
 
         while (inMenu) {
@@ -224,7 +220,7 @@ public class ConsoleUI {
         }
     }
 
-// Læser brugerens valg og håndterer ugyldigt input
+    // Læser brugerens valg og håndterer ugyldigt input
     private int readChoice(String message) {
         try {
             return Integer.parseInt(IO.readln(message));
