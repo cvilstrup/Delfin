@@ -15,4 +15,8 @@ public abstract class Team {
     public void addMember(Member member) {
         members.add(member);
     }
+
+    public void removeMember(CompetitionSwimmer swimmer) {
+        members.remove(swimmer);
+    }
 }
