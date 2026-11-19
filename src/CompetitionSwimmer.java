@@ -23,4 +23,17 @@ public class CompetitionSwimmer extends Member {
     public Team getTeam() {
         return team;
     }
+
+    public String toString(){
+        return String.format("""
+                           Navn: %s
+                           Medlems-ID: %d
+                           Fødselsdag: %s
+                           E-mail: %s
+                           Kodeord: %s
+                           Status af medlemsskab: %s
+                           Type medlem: (konkurrence eller almindelig)
+                           Tilknyttet hold: (junior eller senior)
+                            """);
+    }
 }
