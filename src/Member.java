@@ -78,6 +78,10 @@ public class Member {
             return membershipStatus;
         }
 
+        public void setMembershipStatus(MembershipStatus membershipStatus){
+            this.membershipStatus = membershipStatus;
+        }
+
         public int getMembershipFee(){
         return membershipFee;
         }

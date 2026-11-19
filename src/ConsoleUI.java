@@ -72,6 +72,7 @@ public class ConsoleUI {
                 IO.println();
                 IO.println("1. Opret medlem");
                 IO.println("2. Vis medlemmer");
+                IO.println("3. Juster medlemskabstype for et medlem");
                 IO.println("0. Tilbage til hovedmenu");
                 IO.println();
 
@@ -80,6 +81,7 @@ public class ConsoleUI {
                 switch (choice) {
                     case 1 -> registerMember();
                     case 2 -> showMembers();
+                    case 3 -> editMembershipStatus();
                     case 0 -> inMenu = false;
                     default -> IO.println("Ugyldigt valg, prøv igen");
                 }
@@ -226,6 +228,47 @@ public class ConsoleUI {
         }
     }
 
+    private void editMembershipStatus(){
+        boolean inMenu = true;
+
+        while (inMenu) {
+            String typedEmail = IO.readln("Indtast medlemmets e-mail: ");
+
+            Member foundMember = null;
+
+            for (Member member : swimmingClub.members) {
+                if (typedEmail.equalsIgnoreCase(member.getEmail())) {
+                    foundMember = member;
+                    break;
+                }
+            }
+
+            if (foundMember != null) {
+                IO.println();
+                IO.println("Du er nu logget ind som: " + foundMember.getName());
+                IO.println(foundMember.getName() + " har et " + foundMember.getMembershipStatus() + " medlemskab");
+                MembershipStatus newMembershipStatus = readNewMembershipStatusChoice();
+
+                if(newMembershipStatus == null) {
+                    IO.println("Fejl: Det var ikke muligt at ændre medlemsskabet");
+
+                }else{
+                    foundMember.setMembershipStatus(newMembershipStatus);
+                    IO.println();
+                    IO.println( foundMember.getName() +"'s medlemsstatus er nu ændret til " + newMembershipStatus);
+                }
+                inMenu = false;
+            } else if (swimmingClub.members.isEmpty()) {
+                IO.println();
+                IO.println("Der eksisterer ingen medlemmer i svømmeklubben (endnu)");
+                IO.println();
+            } else {
+                IO.println("Forkert e-mail eller adgangskode. Prøv igen.");
+            }
+            }
+        }
+
+
     // Læser brugerens valg og håndterer ugyldigt input
     private int readChoice(String message) {
         try {
@@ -245,6 +288,17 @@ public class ConsoleUI {
             } catch (DateTimeParseException e) {
                 IO.println("Fejl: Ugyldig dato. Brug formatet DD-MM-ÅÅÅÅ (f.eks. 15-05-1995).");
             }
+        }
+    }
+
+    private MembershipStatus readNewMembershipStatusChoice () {
+        try {
+            IO.println();
+            String message = IO.readln("Hvad skal medlemstypen ændres til? (ACTIVE eller PASSIVE): ");
+            String messageUpper = message.toUpperCase();
+            return MembershipStatus.valueOf(messageUpper);
+        } catch (IllegalArgumentException e) {
+            return null;
         }
     }
 
