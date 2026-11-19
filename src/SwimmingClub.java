@@ -3,8 +3,11 @@ import java.util.List;
 
 public class SwimmingClub {
 
+    private JuniorTeam juniorTeam = new JuniorTeam(new Trainer(), "Juniorhold");
+    private SeniorTeam seniorTeam = new SeniorTeam(new Trainer(), "Seniorhold");
+
 // Opretter ArrayLists til at holde styr på swømmeklubbens medlemmer ...
-    private List<Member> members = new ArrayList<>();
+    public List<Member> members = new ArrayList<>();
 
 // Tilføjer et medlem til svømmeklubbens liste over medlemmer
     public void addMember(Member member) {
@@ -20,6 +23,7 @@ public class SwimmingClub {
     public void printMembers() {
         for (Member member : members) {
             IO.println(member);
+            IO.println();
         }
     }
 
@@ -32,5 +36,12 @@ public class SwimmingClub {
         }
     // Returnerer null hvis der ikke findes et medlem med det ID
         return null;
+    }
+
+    public void calculateRevenue(){
+        int totalRevenue = 0;
+        for (Member member : members){
+            totalRevenue += member.getMembershipFee();
+        }
     }
 }

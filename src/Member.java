@@ -6,14 +6,18 @@ public class Member {
     private String name;
     private LocalDate birthday;
     private String email;
+    private String password;
     private MembershipStatus membershipStatus; //aktiv eller passiv
     private int membershipFee;
+    private LocalDate renewalDate;
 
     private static int nextMemberID = 1;
-    public Member(String name, LocalDate birthday, String email) {
+    public Member(String name, LocalDate birthday, String email, String password, LocalDate renewalDate) {
         this.name = name;
         this.birthday = birthday;
         this.email = email;
+        this.password = password;
+        this.renewalDate = renewalDate;
         membershipStatus = MembershipStatus.ACTIVE;
         membershipFee = calculateMemberFee();
         memberID = nextMemberID++;
@@ -46,6 +50,9 @@ public class Member {
         throw new IllegalStateException("Unknown membership status");
     }
 
+//    public int getMembershipFee() {
+//        return membershipFee;
+//    }
 
     public int getMemberID () {
             return memberID;
@@ -63,17 +70,30 @@ public class Member {
             return email;
         }
 
+        public String getPassword () {
+            return password;
+        }
+
         public MembershipStatus getMembershipStatus () {
             return membershipStatus;
         }
 
-        public String toString(){
+        public int getMembershipFee(){
+        return membershipFee;
+        }
+
+    public LocalDate getRenewalDate() {
+        return renewalDate;
+    }
+
+    public String toString(){
         return String.format("""
                 Navn: %s
                 Medlems-ID: %d
                 Fødselsdag: %s
                 E-mail: %s
-                Status af medlemsskab: %s""",name, memberID, birthday, email, membershipStatus);
+                Kodeord: %s
+                Status af medlemsskab: %s""",name, memberID, birthday, email, password, membershipStatus);
         }
 
     }
