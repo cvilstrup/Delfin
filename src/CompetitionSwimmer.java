@@ -1,8 +1,10 @@
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 
 public class CompetitionSwimmer extends Member {
     private Team team;
+    private ArrayList<SwimmingDiscipline> disciplines = new ArrayList<>();
 
     public CompetitionSwimmer(String name, LocalDate birthday, String email, String password, LocalDate renewalDate,
                               JuniorTeam juniorTeam, SeniorTeam seniorTeam) {
@@ -24,6 +26,16 @@ public class CompetitionSwimmer extends Member {
         return team;
     }
 
+    public void addDiscipline(SwimmingDiscipline discipline) {
+        if (!disciplines.contains(discipline)) {
+            disciplines.add(discipline);
+        }
+    }
+
+    public ArrayList<SwimmingDiscipline> getDisciplines() {
+        return disciplines;
+    }
+
     @Override
     public String toString() {
         String teamName = (team instanceof JuniorTeam) ? "Junior" : "Senior";
@@ -33,7 +45,7 @@ public class CompetitionSwimmer extends Member {
 
         return String.format("""
                         %s
-                        Tilknyttet hold: %s""",
-                baseInfo, teamName);
+                        Tilknyttet hold: %s, Discipliner: %s""",
+                baseInfo, teamName, disciplines);
     }
 }

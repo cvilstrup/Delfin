@@ -142,7 +142,9 @@ public class ConsoleUI {
             JuniorTeam juniorTeam = swimmingClub.getJuniorTeam();
             SeniorTeam seniorTeam = swimmingClub.getSeniorTeam();
 
-            member = new CompetitionSwimmer(name, birthday, email, password, renewalDate, juniorTeam, seniorTeam);
+            CompetitionSwimmer swimmer = new CompetitionSwimmer(name, birthday, email, password, renewalDate, juniorTeam, seniorTeam);
+            chooseDisciplines(swimmer);
+            member = swimmer;
 
         }else{
             member = new Member(name, birthday, email, password, renewalDate);
@@ -345,6 +347,7 @@ public class ConsoleUI {
                                     swimmingClub.getJuniorTeam(),
                                     swimmingClub.getSeniorTeam()
                             );
+                            chooseDisciplines(newSwimmer);
 
                             int index = swimmingClub.members.indexOf(foundMember);
                             swimmingClub.members.set(index, newSwimmer);
@@ -361,6 +364,30 @@ public class ConsoleUI {
                 }
             }
         }
+
+    // Lader brugeren vælge en eller flere discipliner til en konkurrencesvømmer
+    private void chooseDisciplines(CompetitionSwimmer swimmer) {
+        SwimmingDiscipline[] disciplines = SwimmingDiscipline.values();
+        boolean choosing = true;
+
+        while (choosing) {
+            IO.println();
+            IO.println("Vælg disciplin:");
+            for (int i = 0; i < disciplines.length; i++) {
+                IO.println((i + 1) + ". " + disciplines[i]);
+            }
+            IO.println("0. Færdig");
+
+            int choice = readChoice("Vælg: ");
+            if (choice == 0) {
+                choosing = false;
+            } else if (choice >= 1 && choice <= disciplines.length) {
+                swimmer.addDiscipline(disciplines[choice - 1]);
+            } else {
+                IO.println("Ugyldigt valg, prøv igen");
+            }
+        }
+    }
 
     // Læser brugerens valg og håndterer ugyldigt input
     private int readChoice(String message) {
