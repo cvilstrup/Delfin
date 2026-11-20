@@ -1,8 +1,10 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Comparator;
 import java.util.Locale;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class ConsoleUI {
 
@@ -352,6 +354,30 @@ public class ConsoleUI {
 
     private void showTrainingResults(){
 
+        IO.println("--- Registrerede svømmetider ---");
+        boolean anyResultsFound = false;
+
+        for (Member member : swimmingClub.members) {
+
+            if (member instanceof CompetitionSwimmer swimmer) {
+                ArrayList<SwimResult> results = swimmer.getSwimResults();
+
+                if (!results.isEmpty()) {
+                    anyResultsFound = true;
+                    IO.println("\nSvømmer: " + swimmer.getName() + " (ID: " + swimmer.getMemberID() + ")");
+
+                    for (SwimResult result : results) {
+                        IO.println("  - " + result);
+                    }
+                }
+            }
+        }
+
+        if (!anyResultsFound) {
+            IO.println("Der er endnu ikke registreret nogen svømmetider.");
+        }
+
+        IO.println();
     }
 
     private void showCompetitionResults(){
@@ -359,7 +385,65 @@ public class ConsoleUI {
     }
 
     private void showTop5Results(){
+        IO.println("--- Delfinens Top 5 resultater ---");
 
+        IO.println("\n--- Delfinens Juniorhold ---");
+        printTop5ForTeam(true);
+
+        IO.println("\n--- Delfinens Seniorhold ---");
+        printTop5ForTeam(false);
+
+        IO.println();
+    }
+
+    private void printTop5ForTeam(boolean isJunior) {
+        boolean anyResultsFound = false;
+
+        for (SwimmingDiscipline discipline : SwimmingDiscipline.values()) {
+            ArrayList<Map.Entry<CompetitionSwimmer, SwimResult>> bestInDiscipline = new ArrayList<>();
+
+            for (Member member : swimmingClub.members) {
+                if (member instanceof CompetitionSwimmer swimmer) {
+                    boolean swimmerIsJunior = swimmer.getTeam() instanceof JuniorTeam;
+                    if (swimmerIsJunior != isJunior) {
+                        continue;
+                    }
+
+                    SwimResult bestResult = null;
+
+                    for (SwimResult result : swimmer.getSwimResults()) {
+                        if (result.getDiscipline() == discipline) {
+                            if (bestResult == null || result.getTimeInSeconds() < bestResult.getTimeInSeconds()) {
+                                bestResult = result;
+                            }
+                        }
+                    }
+
+                    if (bestResult != null) {
+                        bestInDiscipline.add(Map.entry(swimmer, bestResult));
+                    }
+                }
+            }
+
+            if (!bestInDiscipline.isEmpty()) {
+                anyResultsFound = true;
+                IO.println("\nDisciplin: " + discipline);
+
+                bestInDiscipline.sort(Comparator.comparingDouble(entry -> entry.getValue().getTimeInSeconds()));
+
+                int limit = Math.min(5, bestInDiscipline.size());
+                for (int i = 0; i < limit; i++) {
+                    CompetitionSwimmer swimmer = bestInDiscipline.get(i).getKey();
+                    SwimResult result = bestInDiscipline.get(i).getValue();
+
+                    IO.println((i + 1) + ". " + swimmer.getName() + " - " + result.getTimeInSeconds() + " sek. (" + result.getDate() + ")");
+                }
+            }
+        }
+
+        if (!anyResultsFound) {
+            IO.println("Der er endnu ikke registreret nogen svømmetider for dette hold (endnu).");
+        }
     }
 
     private void editMembershipStatus(){
