@@ -5,7 +5,7 @@ import java.util.Locale;
 import java.util.ArrayList;
 
 public class ConsoleUI {
-    //x
+
     // Gemmer svømmeklubben som ConsoleUI skal arbejde med
     private SwimmingClub swimmingClub;
     private Chairman chairman;

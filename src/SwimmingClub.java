@@ -26,7 +26,7 @@ public class SwimmingClub {
             IO.println();
         }
     }
-    //x
+
 // Finder et bestemt medlem ud fra deres medlems ID
     public Member getMember(int memberID) {
         for (Member member : members) {

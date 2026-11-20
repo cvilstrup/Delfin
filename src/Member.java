@@ -1,6 +1,6 @@
 import java.time.LocalDate;
 import java.time.Period;
-//x
+
 public class Member {
     private int memberID;
     private String name;
