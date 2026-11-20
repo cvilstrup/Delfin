@@ -1,7 +1,7 @@
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
-
+//x
 public class CompetitionSwimmer extends Member {
     private Team team;
     private ArrayList<SwimmingDiscipline> disciplines = new ArrayList<>();
