@@ -1,7 +1,7 @@
 import java.time.LocalDate;
 
 public class SwimResult {
-
+    //x
         private SwimmingDiscipline discipline;
         private double timeInSeconds;
         private LocalDate date;
