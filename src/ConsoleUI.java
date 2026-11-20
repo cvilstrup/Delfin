@@ -2,17 +2,20 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Locale;
+import java.util.ArrayList;
 
 public class ConsoleUI {
 
     // Gemmer svømmeklubben som ConsoleUI skal arbejde med
     private SwimmingClub swimmingClub;
     private Chairman chairman;
+    private Trainer trainer;
 
     // Tilføjer swimmingClub til konstruktøren
-    public ConsoleUI(SwimmingClub swimmingClub, Chairman chairman) {
+    public ConsoleUI(SwimmingClub swimmingClub, Chairman chairman, Trainer trainer) {
         this.swimmingClub = swimmingClub;
         this.chairman = chairman;
+        this.trainer = trainer;
     }
 
     // Starter ConsoleUI
@@ -31,8 +34,9 @@ public class ConsoleUI {
             // Bestemmer hvad der skal ske ud fra brugerens valg
             switch (choice) {
                 case 1 -> chairmanMenu();
-                case 2 -> cashierMenu();
-                case 3 -> memberMenu();
+                case 2 -> trainerMenu();
+                case 3 -> cashierMenu();
+                case 4 -> memberMenu();
                 case 0 -> running = false;
                 default -> IO.println("Ugyldigt valg, prøv venligst igen");
             }
@@ -45,8 +49,9 @@ public class ConsoleUI {
         IO.println("=== Hovedmenu ===");
         IO.println();
         IO.println("1. Formand");
-        IO.println("2. Kasserer");
-        IO.println("3. Medlem");
+        IO.println("2. Træner");
+        IO.println("3. Kasserer");
+        IO.println("4. Medlem");
         IO.println("0. Afslut");
         IO.println();
     }
@@ -157,6 +162,45 @@ public class ConsoleUI {
         IO.println("Medlemmet blev oprettet: \n" + member);
     }
 
+    private void trainerMenu(){
+
+            String typedEmail = IO.readln("Indtast din e-mail: ");
+            String typedPassword = IO.readln("Indtast din adgangskode: ");
+
+        if (typedEmail.equalsIgnoreCase(trainer.getTrainerEmail()) && typedPassword.equals(trainer.getTrainerPassword())){
+
+            IO.println();
+            IO.println("Velkommen, " + trainer.getName() + "😁");
+
+            boolean inMenu = true;
+
+            while (inMenu){
+                IO.println();
+                IO.println("=== Træner Menu ===");
+                IO.println();
+                IO.println("1. Register svømmetid");
+                IO.println("2. Vis træningsresultater");
+                IO.println("3. Vis stævne resultater");
+                IO.println("4. Vis top 5 resultater");
+                IO.println("0. Tilbage til hovedmenu");
+                IO.println();
+
+                int choice = readChoice("Vælg handling: ");
+
+                switch (choice) {
+                    case 1 -> registerSwimtime();
+                    case 2 -> showTrainingResults();
+                    case 3 -> showCompetitionResults();
+                    case 4 -> showTop5Results();
+                    case 0 -> inMenu = false;
+                    default -> IO.println("Ugyldigt valg, prøv igen");
+                }
+
+
+            }
+        }
+    }
+
     // Viser kassererens menu
     private void cashierMenu() {
         boolean inMenu = true;
@@ -241,6 +285,81 @@ public class ConsoleUI {
                 IO.println("Forkert e-mail eller adgangskode. Prøv igen.");
             }
         }
+    }
+
+    private void registerSwimtime() {
+        boolean inMenu = true;
+
+        while (inMenu) {
+            String typedEmail = IO.readln("Indtast konkurrence-svømmerens e-mail (tryk '0' for at gå tilbage): ");
+
+            if (typedEmail.equals("0")) {
+                inMenu = false;
+                continue;
+            }
+
+            Member foundMember = null;
+
+            for (Member member : swimmingClub.members) {
+                if (typedEmail.equalsIgnoreCase(member.getEmail())) {
+                    foundMember = member;
+                    break;
+                }
+            }
+
+            if (foundMember == null) {
+                IO.println("Intet medlem fundet med e-mailen: " + typedEmail + ". Prøv igen.\n");
+                continue;
+            }
+
+            if (foundMember instanceof CompetitionSwimmer swimmer) {
+                ArrayList<SwimmingDiscipline> disciplines = swimmer.getDisciplines();
+
+                if (disciplines.isEmpty()) {
+                    IO.println(swimmer.getName() + " er ikke tilmeldt nogen svømmediscipliner endnu.");
+                } else {
+                    SwimmingDiscipline chosenDiscipline;
+
+                    if (disciplines.size() == 1) {
+                        chosenDiscipline = disciplines.get(0);
+                        IO.println(swimmer.getName() + " specialiserer sig i: " + chosenDiscipline);
+                    } else {
+                        IO.println(swimmer.getName() + " specialiserer sig i:");
+                        for (int i = 0; i < disciplines.size(); i++) {
+                            IO.println((i + 1) + ". " + disciplines.get(i));
+                        }
+                        int choice = Integer.parseInt(IO.readln("Vælg disciplin (nummer): "));
+                        chosenDiscipline = disciplines.get(choice - 1);
+                    }
+
+                    IO.println();
+                    double time = Double.parseDouble(IO.readln("Indtast tid i sekunder for " + chosenDiscipline + ": "));
+                    SwimResult result = new SwimResult(chosenDiscipline, time, LocalDate.now());
+                    swimmer.addSwimResult(result);
+
+                    IO.println();
+                    IO.println("Tid registreret: " + result);
+                }
+
+                inMenu = false;
+
+            } else {
+                IO.println(foundMember.getName() + " er et almindeligt medlem og kan ikke få registreret konkurrencetider.");
+                inMenu = false;
+            }
+        }
+    }
+
+    private void showTrainingResults(){
+
+    }
+
+    private void showCompetitionResults(){
+
+    }
+
+    private void showTop5Results(){
+
     }
 
     private void editMembershipStatus(){
@@ -376,6 +495,7 @@ public class ConsoleUI {
             for (int i = 0; i < disciplines.length; i++) {
                 IO.println((i + 1) + ". " + disciplines[i]);
             }
+            IO.println();
             IO.println("0. Færdig");
 
             int choice = readChoice("Vælg: ");
