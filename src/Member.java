@@ -80,6 +80,7 @@ public class Member {
 
         public void setMembershipStatus(MembershipStatus membershipStatus){
             this.membershipStatus = membershipStatus;
+            this.membershipFee = calculateMemberFee();
         }
 
         public int getMembershipFee(){

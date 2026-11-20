@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class CompetitionSwimmer extends Member {
     private Team team;
     private ArrayList<SwimmingDiscipline> disciplines = new ArrayList<>();
+    private ArrayList<SwimResult> swimResults = new ArrayList<>();
 
     public CompetitionSwimmer(String name, LocalDate birthday, String email, String password, LocalDate renewalDate,
                               JuniorTeam juniorTeam, SeniorTeam seniorTeam) {
@@ -32,6 +33,14 @@ public class CompetitionSwimmer extends Member {
         }
     }
 
+    public void addSwimResult(SwimResult result) {
+        swimResults.add(result);
+    }
+
+    public ArrayList<SwimResult> getSwimResults() {
+        return swimResults;
+    }
+
     public ArrayList<SwimmingDiscipline> getDisciplines() {
         return disciplines;
     }
@@ -40,7 +49,6 @@ public class CompetitionSwimmer extends Member {
     public String toString() {
         String teamName = (team instanceof JuniorTeam) ? "Junior" : "Senior";
 
-        // Henter basisteksten fra Member og erstatter "Almindeligt medlem"
         String baseInfo = super.toString().replace("Almindeligt medlem", "Konkurrencesvømmer");
 
         return String.format("""
