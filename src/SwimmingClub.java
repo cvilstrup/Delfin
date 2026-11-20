@@ -38,6 +38,14 @@ public class SwimmingClub {
         return null;
     }
 
+    public JuniorTeam getJuniorTeam() {
+        return juniorTeam;
+    }
+
+    public SeniorTeam getSeniorTeam() {
+        return seniorTeam;
+    }
+
     public void calculateRevenue(){
         int totalRevenue = 0;
         for (Member member : members){

@@ -72,6 +72,8 @@ public class ConsoleUI {
                 IO.println();
                 IO.println("1. Opret medlem");
                 IO.println("2. Vis medlemmer");
+                IO.println("3. Juster medlemskabstype for et medlem");
+                IO.println("4. Juster konkurrence rolle");
                 IO.println("0. Tilbage til hovedmenu");
                 IO.println();
 
@@ -80,6 +82,8 @@ public class ConsoleUI {
                 switch (choice) {
                     case 1 -> registerMember();
                     case 2 -> showMembers();
+                    case 3 -> editMembershipStatus();
+                    case 4 -> editCompetitionRole();
                     case 0 -> inMenu = false;
                     default -> IO.println("Ugyldigt valg, prøv igen");
                 }
@@ -128,10 +132,21 @@ public class ConsoleUI {
         //Modtager et kodeord fra brugeren
         String password = IO.readln("Opret og indtast adgangskode: ");
 
+        String isCompetitiveSwimmer = readCompetitiveChoice();
         LocalDate renewalDate = LocalDate.now();
 
-        // Opretter et nyt medlem med navn og ID
-        Member member = new Member(name, birthday, email, password, renewalDate);
+        Member member;
+
+        if(isCompetitiveSwimmer.equalsIgnoreCase("JA")){
+
+            JuniorTeam juniorTeam = swimmingClub.getJuniorTeam();
+            SeniorTeam seniorTeam = swimmingClub.getSeniorTeam();
+
+            member = new CompetitionSwimmer(name, birthday, email, password, renewalDate, juniorTeam, seniorTeam);
+
+        }else{
+            member = new Member(name, birthday, email, password, renewalDate);
+        }
 
         // Tilføjer medlemmet til svømmeklubben
         swimmingClub.addMember(member);
@@ -226,6 +241,127 @@ public class ConsoleUI {
         }
     }
 
+    private void editMembershipStatus(){
+        boolean inMenu = true;
+
+        while (inMenu) {
+            String typedEmail = IO.readln("Indtast medlemmets e-mail: ");
+
+            Member foundMember = null;
+
+            for (Member member : swimmingClub.members) {
+                if (typedEmail.equalsIgnoreCase(member.getEmail())) {
+                    foundMember = member;
+                    break;
+                }
+            }
+
+            if (foundMember != null) {
+                IO.println();
+                IO.println("Du er nu logget ind som: " + foundMember.getName());
+                IO.println(foundMember.getName() + " har et " + foundMember.getMembershipStatus() + " medlemskab");
+                MembershipStatus newMembershipStatus = readNewMembershipStatusChoice();
+
+                if(newMembershipStatus == null) {
+                    IO.println("Fejl: Det var ikke muligt at ændre medlemsskabet");
+
+                }else{
+                    foundMember.setMembershipStatus(newMembershipStatus);
+                    IO.println();
+                    IO.println( foundMember.getName() +"'s medlemsstatus er nu ændret til " + newMembershipStatus);
+                }
+                inMenu = false;
+            } else if (swimmingClub.members.isEmpty()) {
+                IO.println();
+                IO.println("Der eksisterer ingen medlemmer i svømmeklubben (endnu)");
+                IO.println();
+            } else {
+                IO.println("Forkert e-mail eller adgangskode. Prøv igen.");
+            }
+            }
+        }
+
+        private void editCompetitionRole() {
+            boolean inMenu = true;
+
+            while (inMenu) {
+                String typedEmail = IO.readln("Indtast konkurrence-svømmerens / medlemmets e-mail: ");
+                Member foundMember = null;
+
+                for (Member member : swimmingClub.members) {
+                    if (typedEmail.equalsIgnoreCase(member.getEmail())) {
+                        foundMember = member;
+                        break;
+                    }
+                }
+
+                if (foundMember != null) {
+                    IO.println();
+                    IO.println("Medlem fundet: " + foundMember.getName());
+
+                    boolean isCurrentlyCompetitive = foundMember instanceof CompetitionSwimmer;
+
+                    if (isCurrentlyCompetitive) {
+                        IO.println(foundMember.getName() + " er i øjeblikket konkurrencesvømmer.");
+                        String answer = IO.readln("Vil du ændre medlemmet til almindeligt medlem? (JA/NEJ): ");
+
+                        if (answer.equalsIgnoreCase("JA")) {
+
+                            CompetitionSwimmer oldSwimmer = (CompetitionSwimmer) foundMember;
+
+                            if (oldSwimmer.getTeam() != null) {
+                                oldSwimmer.getTeam().removeMember(oldSwimmer);
+                            }
+
+                            Member regularMember = new Member(
+                                    foundMember.getName(),
+                                    foundMember.getBirthday(),
+                                    foundMember.getEmail(),
+                                    foundMember.getPassword(),
+                                    foundMember.getRenewalDate()
+                            );
+
+                            int index = swimmingClub.members.indexOf(foundMember);
+                            swimmingClub.members.set(index, regularMember);
+
+                            IO.println();
+                            IO.println(foundMember.getName() + " er nu ændret til almindeligt medlem.");
+                        }else if (answer.equalsIgnoreCase("NEJ")) {
+                            IO.println();
+                            IO.println("Der blev ikke foretaget nogle ændringer");
+                        }
+                    } else {
+                        IO.println(foundMember.getName() + " er i øjeblikket et almindeligt medlem.");
+                        String answer = IO.readln("Vil du ændre medlemmet til konkurrencesvømmer? (JA/NEJ): ");
+
+                        if (answer.equalsIgnoreCase("JA")) {
+
+                            CompetitionSwimmer newSwimmer = new CompetitionSwimmer(
+                                    foundMember.getName(),
+                                    foundMember.getBirthday(),
+                                    foundMember.getEmail(),
+                                    foundMember.getPassword(),
+                                    foundMember.getRenewalDate(),
+                                    swimmingClub.getJuniorTeam(),
+                                    swimmingClub.getSeniorTeam()
+                            );
+
+                            int index = swimmingClub.members.indexOf(foundMember);
+                            swimmingClub.members.set(index, newSwimmer);
+
+                            IO.println(foundMember.getName() + " er nu ændret til konkurrencesvømmer.");
+                        } else if (answer.equalsIgnoreCase("NEJ")) {
+                            IO.println();
+                            IO.println("Der blev ikke foretaget nogle ændringer");
+                        }
+                    }
+                    inMenu = false;
+                } else {
+                    IO.println("Ingen medlemmer fundet med den e-mail. Prøv igen.");
+                }
+            }
+        }
+
     // Læser brugerens valg og håndterer ugyldigt input
     private int readChoice(String message) {
         try {
@@ -245,6 +381,28 @@ public class ConsoleUI {
             } catch (DateTimeParseException e) {
                 IO.println("Fejl: Ugyldig dato. Brug formatet DD-MM-ÅÅÅÅ (f.eks. 15-05-1995).");
             }
+        }
+    }
+
+    private MembershipStatus readNewMembershipStatusChoice () {
+        try {
+            IO.println();
+            String message = IO.readln("Hvad skal medlemstypen ændres til? (ACTIVE eller PASSIVE): ");
+            String messageUpper = message.toUpperCase();
+            return MembershipStatus.valueOf(messageUpper);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+
+    private String readCompetitiveChoice(){
+        try {
+            IO.println();
+            String message = IO.readln("Er medlemmet en konkurrencesvømmer? (JA eller NEJ): ");
+            String messageUpper = message.toUpperCase();
+            return String.valueOf(messageUpper);
+        } catch (NumberFormatException e){
+            return "Fejl.";
         }
     }
 

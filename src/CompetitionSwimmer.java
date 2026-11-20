@@ -3,13 +3,11 @@ import java.time.Period;
 
 public class CompetitionSwimmer extends Member {
     private Team team;
-    SwimmingDiscipline swimmingDiscipline;
+
     public CompetitionSwimmer(String name, LocalDate birthday, String email, String password, LocalDate renewalDate,
-                              JuniorTeam juniorTeam, SeniorTeam seniorTeam, SwimmingDiscipline swimmingDiscipline)
-    {
-        super(name, birthday, email,password, renewalDate);
+                              JuniorTeam juniorTeam, SeniorTeam seniorTeam) {
+        super(name, birthday, email, password, renewalDate);
         calculateTeam(juniorTeam, seniorTeam);
-        this.swimmingDiscipline = swimmingDiscipline;
     }
 
     private void calculateTeam(JuniorTeam juniorTeam, SeniorTeam seniorTeam) {
@@ -24,5 +22,18 @@ public class CompetitionSwimmer extends Member {
 
     public Team getTeam() {
         return team;
+    }
+
+    @Override
+    public String toString() {
+        String teamName = (team instanceof JuniorTeam) ? "Junior" : "Senior";
+
+        // Henter basisteksten fra Member og erstatter "Almindeligt medlem"
+        String baseInfo = super.toString().replace("Almindeligt medlem", "Konkurrencesvømmer");
+
+        return String.format("""
+                        %s
+                        Tilknyttet hold: %s""",
+                baseInfo, teamName);
     }
 }

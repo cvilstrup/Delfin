@@ -78,6 +78,10 @@ public class Member {
             return membershipStatus;
         }
 
+        public void setMembershipStatus(MembershipStatus membershipStatus){
+            this.membershipStatus = membershipStatus;
+        }
+
         public int getMembershipFee(){
         return membershipFee;
         }
@@ -86,6 +90,7 @@ public class Member {
         return renewalDate;
     }
 
+    @Override
     public String toString(){
         return String.format("""
                 Navn: %s
@@ -93,7 +98,8 @@ public class Member {
                 Fødselsdag: %s
                 E-mail: %s
                 Kodeord: %s
-                Status af medlemsskab: %s""",name, memberID, birthday, email, password, membershipStatus);
+                Status af medlemsskab: %s
+                Type medlem: Almindeligt medlem""",name, memberID, birthday, email, password, membershipStatus);
         }
 
     }
