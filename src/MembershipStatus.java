@@ -1,4 +1,4 @@
 public enum MembershipStatus {
-    ACTIVE,//x
+    ACTIVE,
     PASSIVE
 }
