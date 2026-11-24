@@ -31,6 +31,8 @@ public class ConsoleUI {
             // Viser hovedmenuen til brugeren
             showMenu();
 
+            //random comment
+
             // Modtager valg fra brugeren
             int choice = readChoice("Vælg bruger: ");
 
