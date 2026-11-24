@@ -1,7 +1,12 @@
 public class Treasurer {
     private String name = "Thorkild Hansen";
-    private String treasurerEmail = "thorkild@delfin.sk.dk";
-    private String treasurerPassword = "thorkildelskerpenge";
+    private final String treasurerEmail;
+    private final String treasurerPassword;
+
+    public Treasurer(String treasurerEmail, String treasurerPassword) {
+        this.treasurerEmail = treasurerEmail;
+        this.treasurerPassword = treasurerPassword;
+    }
 
     public String getName() {
         return name;

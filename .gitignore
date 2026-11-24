@@ -28,3 +28,8 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Delfin data (indeholder kodeord) ###
+members.csv
+swimresults.csv
+.env

@@ -1,7 +1,12 @@
 public class Chairman {
     private String name = "Big Bossman";
-    private final String chairmanEmail = "denstoreformand@delfin.sk.dk";
-    private final String chairmanPassword = "Delfin4Ever_2026!";
+    private final String chairmanEmail;
+    private final String chairmanPassword;
+
+    public Chairman(String chairmanEmail, String chairmanPassword) {
+        this.chairmanEmail = chairmanEmail;
+        this.chairmanPassword = chairmanPassword;
+    }
 
     public String getName() {
         return name;
