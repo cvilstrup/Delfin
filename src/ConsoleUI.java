@@ -16,9 +16,10 @@ public class ConsoleUI {
     Member member;
 
     // Tilføjer swimmingClub til konstruktøren
-    public ConsoleUI(SwimmingClub swimmingClub, Chairman chairman, Trainer trainer) {
+    public ConsoleUI(SwimmingClub swimmingClub, Chairman chairman, Treasurer treasurer, Trainer trainer) {
         this.swimmingClub = swimmingClub;
         this.chairman = chairman;
+        this.treasurer = treasurer;
         this.trainer = trainer;
     }
 
@@ -213,30 +214,36 @@ public class ConsoleUI {
         String typedEmail = IO.readln("Indtast din e-mail: ");
         String typedPassword = IO.readln("Indtast din adgangskode: ");
 
-        if (typedEmail.equalsIgnoreCase(treasurer.getTreasurerEmail()) && typedPassword.equals(treasurer.getTreasurerEmail())) {
+        if (typedEmail.equalsIgnoreCase(treasurer.getTreasurerEmail()) && typedPassword.equals(treasurer.getTreasurerPassword())) {
 
             IO.println();
             IO.println("Velkommen, " + treasurer.getName() + "😁");
 
-        boolean inMenu = true;
+            boolean inMenu = true;
 
-        while (inMenu) {
+            while (inMenu) {
 
-            IO.println();
-            IO.println("=== Kasserer Menu ===");
-            IO.println("1. Vis kontingenter");
-            IO.println("2. Vis medlemmer i restance");
-            IO.println("0. Tilbage til hovedmenu");
-            IO.println();
+                IO.println();
+                IO.println("=== Kasserer Menu ===");
+                IO.println("1. Vis kontingenter");
+                IO.println("2. Vis medlemmer i restance");
+                IO.println("0. Tilbage til hovedmenu");
+                IO.println();
 
-            int choice = readChoice("Vælg handling: ");
+                int choice = readChoice("Vælg handling: ");
 
-            switch (choice) {
-                case 1 -> IO.println("Vis kontingenter");
-                case 2 -> IO.println("Vis medlemmer i restance");
-                case 0 -> inMenu = false;
-                default -> IO.println("Ugyldigt valg, prøv igen");
+                switch (choice) {
+                    case 1 -> IO.println("Vis kontingenter");
+                    case 2 -> IO.println("Vis medlemmer i restance");
+                    case 0 -> inMenu = false;
+                    default -> IO.println("Ugyldigt valg, prøv igen");
+                }
             }
+
+        } else {
+            IO.println();
+            IO.println("Forkert e-mail eller adgangskode. Prøv igen.");
+            IO.println();
         }
     }
 
