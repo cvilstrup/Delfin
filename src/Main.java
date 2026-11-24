@@ -3,10 +3,11 @@ void main() {
 // Her bliver svømmeklubben oprettet
     SwimmingClub swimmingClub = new SwimmingClub();
     Chairman chairman = new Chairman();
+    Treasurer treasurer = new Treasurer();
     Trainer trainer = new Trainer();
 
 // Her opretter vi ConsoleUI og giver den adgang til biblioteket
-    ConsoleUI consoleUI = new ConsoleUI(swimmingClub, chairman, trainer);
+    ConsoleUI consoleUI = new ConsoleUI(swimmingClub, chairman, treasurer, trainer);
 
 // Her kan medlemmerne af svmømmeklubben oprettes ...
 
