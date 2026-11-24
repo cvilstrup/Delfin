@@ -8,6 +8,7 @@ public class ConsoleUI {
     // Gemmer svømmeklubben som ConsoleUI skal arbejde med
     private SwimmingClub swimmingClub;
     private Chairman chairman;
+    private Treasurer treasurer;
 
     // Tilføjer swimmingClub til konstruktøren
     public ConsoleUI(SwimmingClub swimmingClub, Chairman chairman) {
@@ -142,6 +143,15 @@ public class ConsoleUI {
 
     // Viser kassererens menu
     private void cashierMenu() {
+
+        String typedEmail = IO.readln("Indtast din e-mail: ");
+        String typedPassword = IO.readln("Indtast din adgangskode: ");
+
+        if (typedEmail.equalsIgnoreCase(treasurer.getTreasurerEmail()) && typedPassword.equals(treasurer.getTreasurerEmail())) {
+
+            IO.println();
+            IO.println("Velkommen, " + treasurer.getName() + "😁");
+
         boolean inMenu = true;
 
         while (inMenu) {
