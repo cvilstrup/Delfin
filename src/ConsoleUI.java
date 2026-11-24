@@ -12,6 +12,7 @@ public class ConsoleUI {
     private SwimmingClub swimmingClub;
     private Chairman chairman;
     private Trainer trainer;
+    Member member;
 
     // Tilføjer swimmingClub til konstruktøren
     public ConsoleUI(SwimmingClub swimmingClub, Chairman chairman, Trainer trainer) {
@@ -141,21 +142,21 @@ public class ConsoleUI {
 
         String isCompetitiveSwimmer = readCompetitiveChoice();
         LocalDate renewalDate = LocalDate.now();
-
-        Member member;
+        LocalDate memberPaymentDue = LocalDate.now().plusDays(14);
 
         if(isCompetitiveSwimmer.equalsIgnoreCase("JA")){
 
             JuniorTeam juniorTeam = swimmingClub.getJuniorTeam();
             SeniorTeam seniorTeam = swimmingClub.getSeniorTeam();
 
-            CompetitionSwimmer swimmer = new CompetitionSwimmer(name, birthday, email, password, renewalDate, juniorTeam, seniorTeam);
+            CompetitionSwimmer swimmer = new CompetitionSwimmer(name, birthday, email, password, renewalDate, memberPaymentDue, juniorTeam, seniorTeam);
             chooseDisciplines(swimmer);
             member = swimmer;
 
         }else{
-            member = new Member(name, birthday, email, password, renewalDate);
+            member = new Member(name, birthday, email, password, renewalDate,memberPaymentDue);
         }
+
 
         // Tilføjer medlemmet til svømmeklubben
         swimmingClub.addMember(member);
@@ -237,6 +238,7 @@ public class ConsoleUI {
             IO.println("=== Medlem Menu ===");
             IO.println();
             IO.println("1. Se info om mit medlemskab");
+            IO.println("2. Betal for dit medlemskab");
             IO.println("0. Tilbage til hovedmenu");
             IO.println();
 
@@ -244,6 +246,7 @@ public class ConsoleUI {
 
             switch (choice) {
                 case 1 -> showIndividualMemberInfo();
+                case 2 -> payMembership();
                 case 0 -> inMenu = false;
                 default -> IO.println("Ugyldigt valg, prøv igen");
             }
@@ -277,6 +280,11 @@ public class ConsoleUI {
                 IO.println("Medlemsstatus: " + foundMember.getMembershipStatus());
                 IO.println();
                 IO.println("Du betaler " + foundMember.getMembershipFee() +" kr. i kontingent. Dit abonnementet fornyes d. " + nextRenewal);
+                IO.println("Betalingsfrist: " + foundMember.getmemberPaymentDue().format(formatter));
+                if (foundMember.getmemberPaymentDue().isBefore(LocalDate.now())) {
+                    IO.println("Din betalingsfrist er overskredet. Betal venligst hurtigst muligt.");
+                }
+
 
                 inMenu = false;
             } else if (swimmingClub.members.isEmpty()) {
@@ -446,6 +454,51 @@ public class ConsoleUI {
         }
     }
 
+    // Lader et medlem logge ind og betale sit kontingent
+    private void payMembership() {
+        Member foundMember = loginMember();
+        if (foundMember == null) {
+            return;
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.forLanguageTag("da-DK"));
+
+        IO.println();
+        IO.println("Du skal betale " + foundMember.getMembershipFee() + " kr. senest d. "
+                + foundMember.getmemberPaymentDue().format(formatter));
+        String answer = IO.readln("Vil du betale nu? (JA/NEJ): ");
+
+        if (answer.equalsIgnoreCase("JA")) {
+            foundMember.payMembershipFee();
+            IO.println("Tak for din betaling! Din næste betalingsfrist er d. "
+                    + foundMember.getmemberPaymentDue().format(formatter));
+        } else {
+            IO.println("Der blev ikke foretaget nogen betaling.");
+        }
+    }
+
+    // Finder medlemmet ud fra e-mail og adgangskode, eller returnerer null
+    private Member loginMember() {
+        if (swimmingClub.members.isEmpty()) {
+            IO.println();
+            IO.println("Der eksisterer ingen medlemmer i svømmeklubben (endnu)");
+            return null;
+        }
+
+        String typedEmail = IO.readln("Indtast din e-mail: ");
+        String typedPassword = IO.readln("Indtast din adgangskode: ");
+
+        for (Member member : swimmingClub.members) {
+            if (typedEmail.equalsIgnoreCase(member.getEmail()) && typedPassword.equals(member.getPassword())) {
+                IO.println("Velkommen, " + member.getName() + "😁");
+                return member;
+            }
+        }
+
+        IO.println("Forkert e-mail eller adgangskode.");
+        return null;
+    }
+
     private void editMembershipStatus(){
         boolean inMenu = true;
 
@@ -523,7 +576,8 @@ public class ConsoleUI {
                                     foundMember.getBirthday(),
                                     foundMember.getEmail(),
                                     foundMember.getPassword(),
-                                    foundMember.getRenewalDate()
+                                    foundMember.getRenewalDate(),
+                                    foundMember.getmemberPaymentDue()
                             );
 
                             int index = swimmingClub.members.indexOf(foundMember);
@@ -547,6 +601,7 @@ public class ConsoleUI {
                                     foundMember.getEmail(),
                                     foundMember.getPassword(),
                                     foundMember.getRenewalDate(),
+                                    foundMember.getmemberPaymentDue(),
                                     swimmingClub.getJuniorTeam(),
                                     swimmingClub.getSeniorTeam()
                             );

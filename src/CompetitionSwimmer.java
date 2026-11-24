@@ -7,9 +7,9 @@ public class CompetitionSwimmer extends Member {
     private ArrayList<SwimmingDiscipline> disciplines = new ArrayList<>();
     private ArrayList<SwimResult> swimResults = new ArrayList<>();
 
-    public CompetitionSwimmer(String name, LocalDate birthday, String email, String password, LocalDate renewalDate,
+    public CompetitionSwimmer(String name, LocalDate birthday, String email, String password, LocalDate renewalDate, LocalDate memberPaymentDue,
                               JuniorTeam juniorTeam, SeniorTeam seniorTeam) {
-        super(name, birthday, email, password, renewalDate);
+        super(name, birthday, email, password, renewalDate, memberPaymentDue);
         calculateTeam(juniorTeam, seniorTeam);
     }
 
