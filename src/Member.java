@@ -10,14 +10,16 @@ public class Member {
     private MembershipStatus membershipStatus; //aktiv eller passiv
     private int membershipFee;
     private LocalDate renewalDate;
+    private LocalDate memberPaymentDue;
 
     private static int nextMemberID = 1;
-    public Member(String name, LocalDate birthday, String email, String password, LocalDate renewalDate) {
+    public Member(String name, LocalDate birthday, String email, String password, LocalDate renewalDate, LocalDate memberPaymentDue) {
         this.name = name;
         this.birthday = birthday;
         this.email = email;
         this.password = password;
         this.renewalDate = renewalDate;
+        this.memberPaymentDue = memberPaymentDue;
         membershipStatus = MembershipStatus.ACTIVE;
         membershipFee = calculateMemberFee();
         memberID = nextMemberID++;
@@ -78,6 +80,11 @@ public class Member {
             return membershipStatus;
         }
 
+        public void setMembershipStatus(MembershipStatus membershipStatus){
+            this.membershipStatus = membershipStatus;
+            this.membershipFee = calculateMemberFee();
+        }
+
         public int getMembershipFee(){
         return membershipFee;
         }
@@ -85,7 +92,16 @@ public class Member {
     public LocalDate getRenewalDate() {
         return renewalDate;
     }
+        public LocalDate getmemberPaymentDue(){
+        return memberPaymentDue;
+        }
 
+    // Betaler kontingentet og flytter betalingsfristen et år frem
+    public void payMembershipFee() {
+        memberPaymentDue = memberPaymentDue.plusYears(1);
+    }
+
+    @Override
     public String toString(){
         return String.format("""
                 Navn: %s
@@ -93,7 +109,9 @@ public class Member {
                 Fødselsdag: %s
                 E-mail: %s
                 Kodeord: %s
-                Status af medlemsskab: %s""",name, memberID, birthday, email, password, membershipStatus);
+                Status af medlemsskab: %s
+                Betalingsfrist: %s
+                Type medlem: Almindeligt medlem""",name, memberID, birthday, email, password, membershipStatus, memberPaymentDue);
         }
 
     }

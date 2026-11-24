@@ -1,11 +1,12 @@
 void main() {
-//wretgfb
+
 // Her bliver svømmeklubben oprettet
     SwimmingClub swimmingClub = new SwimmingClub();
     Chairman chairman = new Chairman();
+    Trainer trainer = new Trainer();
 
 // Her opretter vi ConsoleUI og giver den adgang til biblioteket
-    ConsoleUI consoleUI = new ConsoleUI(swimmingClub, chairman);
+    ConsoleUI consoleUI = new ConsoleUI(swimmingClub, chairman, trainer);
 
 // Her kan medlemmerne af svmømmeklubben oprettes ...
 
