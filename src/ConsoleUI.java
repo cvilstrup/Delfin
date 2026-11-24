@@ -122,7 +122,6 @@ public class ConsoleUI {
         }
     }
 
-    // User story 1:
 // Lader formanden registrere et nyt medlem
     private void registerMember() {
         IO.println();
@@ -198,8 +197,6 @@ public class ConsoleUI {
                     case 0 -> inMenu = false;
                     default -> IO.println("Ugyldigt valg, prøv igen");
                 }
-
-
             }
         }
     }
@@ -230,38 +227,20 @@ public class ConsoleUI {
 
     // Viser medlemmets menu
     private void memberMenu() {
-        boolean inMenu = true;
-
-        while (inMenu) {
-
+        if (swimmingClub.members.isEmpty()) {
             IO.println();
-            IO.println("=== Medlem Menu ===");
-            IO.println();
-            IO.println("1. Se info om mit medlemskab");
-            IO.println("2. Betal for dit medlemskab");
-            IO.println("0. Tilbage til hovedmenu");
-            IO.println();
-
-            int choice = readChoice("Vælg handling: ");
-
-            switch (choice) {
-                case 1 -> showIndividualMemberInfo();
-                case 2 -> payMembership();
-                case 0 -> inMenu = false;
-                default -> IO.println("Ugyldigt valg, prøv igen");
-            }
+            IO.println("Der eksisterer ingen medlemmer i systemet endnu.");
+            return;
         }
-    }
 
-    private void showIndividualMemberInfo() {
-        boolean inMenu = true;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.forLanguageTag("da-DK"));
+        Member foundMember = null;
 
-        while (inMenu) {
-            String typedEmail = IO.readln("Indtast din e-mail: ");
+        while (foundMember == null) {
+            String typedEmail = IO.readln("Indtast din e-mail (eller 0 for at annullere): ");
+            if (typedEmail.equals("0")) {
+                return;
+            }
             String typedPassword = IO.readln("Indtast din adgangskode: ");
-
-            Member foundMember = null;
 
             for (Member member : swimmingClub.members) {
                 if (typedEmail.equalsIgnoreCase(member.getEmail()) && typedPassword.equals(member.getPassword())) {
@@ -270,30 +249,50 @@ public class ConsoleUI {
                 }
             }
 
-            if (foundMember != null) {
-                String nextRenewal = foundMember.getRenewalDate().plusYears(1).format(formatter);
-
-                IO.println("Velkommen, " + foundMember.getName() + "😁");
-                IO.println();
-                IO.println("Medlems-ID: " + foundMember.getMemberID());
-                IO.println("Fødselsdag: " + foundMember.getBirthday().format(formatter));
-                IO.println("Medlemsstatus: " + foundMember.getMembershipStatus());
-                IO.println();
-                IO.println("Du betaler " + foundMember.getMembershipFee() +" kr. i kontingent. Dit abonnementet fornyes d. " + nextRenewal);
-                IO.println("Betalingsfrist: " + foundMember.getmemberPaymentDue().format(formatter));
-                if (foundMember.getmemberPaymentDue().isBefore(LocalDate.now())) {
-                    IO.println("Din betalingsfrist er overskredet. Betal venligst hurtigst muligt.");
-                }
-
-
-                inMenu = false;
-            } else if (swimmingClub.members.isEmpty()) {
-                IO.println();
-                IO.println("Der eksisterer ingen medlemmer i svømmeklubben (endnu)");
-                IO.println();
-            } else {
-                IO.println("Forkert e-mail eller adgangskode. Prøv igen.");
+            if (foundMember == null) {
+                IO.println("Forkert e-mail eller adgangskode. Prøv igen.\n");
             }
+        }
+        IO.println();
+        IO.println("Velkommen, " + foundMember.getName() + "😁");
+
+        boolean inMenu = true;
+        while (inMenu) {
+            IO.println();
+            IO.println("=== Medlem Menu ===");
+            IO.println();
+            IO.println("1. Se info om mit medlemskab");
+            IO.println("2. Betal for dit medlemskab");
+            IO.println("3. Se mine træningstider");
+            IO.println("0. Tilbage til hovedmenu");
+            IO.println();
+
+            int choice = readChoice("Vælg handling: ");
+
+            switch (choice) {
+                case 1 -> showIndividualMemberInfo(foundMember);
+                case 2 -> payMembership(foundMember);
+                case 3 -> showIndividualMemberTrainingResults(foundMember);
+                case 0 -> inMenu = false;
+                default -> IO.println("Ugyldigt valg, prøv igen");
+            }
+        }
+    }
+
+    private void showIndividualMemberInfo(Member foundMember) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.forLanguageTag("da-DK"));
+        String nextRenewal = foundMember.getRenewalDate().plusYears(1).format(formatter);
+
+        IO.println();
+        IO.println("Medlems-ID: " + foundMember.getMemberID());
+        IO.println("Fødselsdag: " + foundMember.getBirthday().format(formatter));
+        IO.println("Medlemsstatus: " + foundMember.getMembershipStatus());
+        IO.println();
+        IO.println("Du betaler " + foundMember.getMembershipFee() + " kr. i kontingent. Dit abonnement fornyes d. " + nextRenewal);
+        IO.println("Betalingsfrist: " + foundMember.getmemberPaymentDue().format(formatter));
+
+        if (foundMember.getmemberPaymentDue().isBefore(LocalDate.now())) {
+            IO.println("Din betalingsfrist er overskredet. Betal venligst hurtigst muligt.");
         }
     }
 
@@ -454,13 +453,7 @@ public class ConsoleUI {
         }
     }
 
-    // Lader et medlem logge ind og betale sit kontingent
-    private void payMembership() {
-        Member foundMember = loginMember();
-        if (foundMember == null) {
-            return;
-        }
-
+    private void payMembership(Member foundMember) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.forLanguageTag("da-DK"));
 
         IO.println();
@@ -477,26 +470,30 @@ public class ConsoleUI {
         }
     }
 
-    // Finder medlemmet ud fra e-mail og adgangskode, eller returnerer null
-    private Member loginMember() {
-        if (swimmingClub.members.isEmpty()) {
-            IO.println();
-            IO.println("Der eksisterer ingen medlemmer i svømmeklubben (endnu)");
-            return null;
-        }
+    private void showIndividualMemberTrainingResults(Member foundMember) {
+        IO.println();
+        IO.println("--- " + foundMember.getName() + "'s træningsresultater ---");
+        IO.println();
 
-        String typedEmail = IO.readln("Indtast din e-mail: ");
-        String typedPassword = IO.readln("Indtast din adgangskode: ");
+        if (foundMember instanceof CompetitionSwimmer swimmer) {
+            ArrayList<SwimResult> sortedResults = new ArrayList<>(swimmer.getSwimResults());
 
-        for (Member member : swimmingClub.members) {
-            if (typedEmail.equalsIgnoreCase(member.getEmail()) && typedPassword.equals(member.getPassword())) {
-                IO.println("Velkommen, " + member.getName() + "😁");
-                return member;
+            if (!sortedResults.isEmpty()) {
+                sortedResults.sort(Comparator.comparing(SwimResult::getTimeInSeconds));
+
+                IO.println("Svømmer: " + swimmer.getName() + " (ID: " + swimmer.getMemberID() + ")");
+
+                int rank = 1;
+                for (SwimResult result : sortedResults) {
+                    IO.println(" " + rank + ". " + result);
+                    rank++;
+                }
+            } else {
+                IO.println("Du har ingen registrerede træningsresultater (endnu).");
             }
+        } else {
+            IO.println("Du er ikke registreret som konkurrencesvømmer.");
         }
-
-        IO.println("Forkert e-mail eller adgangskode.");
-        return null;
     }
 
     private void editMembershipStatus(){
@@ -539,7 +536,7 @@ public class ConsoleUI {
             }
         }
 
-        private void editCompetitionRole() {
+    private void editCompetitionRole() {
             boolean inMenu = true;
 
             while (inMenu) {

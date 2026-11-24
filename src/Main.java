@@ -17,5 +17,6 @@ void main() {
     //swimmingClub.addMember(member1);"//
 
 // Starter ConesoleUI så brugerne kan bruge vores system
+
     consoleUI.run();
 }
