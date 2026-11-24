@@ -23,6 +23,7 @@ void main() {
     fileHandler.loadAll(swimmingClub);
 
 // Starter ConesoleUI så brugerne kan bruge vores system
+
     consoleUI.run();
 
 // Gemmer alt når brugeren vælger "Afslut"
