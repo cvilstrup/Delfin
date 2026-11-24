@@ -32,3 +32,4 @@ bin/
 ### Delfin data (indeholder kodeord) ###
 members.csv
 swimresults.csv
+.env

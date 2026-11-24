@@ -68,7 +68,7 @@ public class ConsoleUI {
         if (typedEmail.equalsIgnoreCase(chairman.getChairmanEmail()) && typedPassword.equals(chairman.getChairmanPassword())) {
 
             IO.println();
-            IO.println("Velkommen, " + chairman.getName() + "😁");
+            IO.println("Velkommen " + "😁");
 
             boolean inMenu = true;
 
