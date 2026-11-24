@@ -42,7 +42,7 @@ public class ConsoleUI {
             switch (choice) {
                 case 1 -> chairmanMenu();
                 case 2 -> trainerMenu();
-                case 3 -> cashierMenu();
+                case 3 -> treasurerMenu();
                 case 4 -> memberMenu();
                 case 0 -> running = false;
                 default -> IO.println("Ugyldigt valg, prøv venligst igen");
@@ -209,7 +209,7 @@ public class ConsoleUI {
     }
 
     // Viser kassererens menu
-    private void cashierMenu() {
+    private void treasurerMenu() {
 
         String typedEmail = IO.readln("Indtast din e-mail: ");
         String typedPassword = IO.readln("Indtast din adgangskode: ");
