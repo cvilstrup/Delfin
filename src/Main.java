@@ -16,7 +16,7 @@ void main() {
 
 
 // Her opretter vi ConsoleUI og giver den adgang til biblioteket
-    ConsoleUI consoleUI = new ConsoleUI(swimmingClub, chairman, trainer);
+    ConsoleUI consoleUI = new ConsoleUI(swimmingClub, chairman, treasurer, trainer);
 
 // Henter gemte medlemmer og svømmeresultater fra filerne
     FileHandler fileHandler = new FileHandler();

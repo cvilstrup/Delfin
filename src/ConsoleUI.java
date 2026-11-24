@@ -11,13 +11,15 @@ public class ConsoleUI {
     // Gemmer svømmeklubben som ConsoleUI skal arbejde med
     private SwimmingClub swimmingClub;
     private Chairman chairman;
+    private Treasurer treasurer;
     private Trainer trainer;
     Member member;
 
     // Tilføjer swimmingClub til konstruktøren
-    public ConsoleUI(SwimmingClub swimmingClub, Chairman chairman, Trainer trainer) {
+    public ConsoleUI(SwimmingClub swimmingClub, Chairman chairman, Treasurer treasurer, Trainer trainer) {
         this.swimmingClub = swimmingClub;
         this.chairman = chairman;
+        this.treasurer = treasurer;
         this.trainer = trainer;
     }
 
@@ -31,6 +33,8 @@ public class ConsoleUI {
             // Viser hovedmenuen til brugeren
             showMenu();
 
+            //random comment
+
             // Modtager valg fra brugeren
             int choice = readChoice("Vælg bruger: ");
 
@@ -38,7 +42,7 @@ public class ConsoleUI {
             switch (choice) {
                 case 1 -> chairmanMenu();
                 case 2 -> trainerMenu();
-                case 3 -> cashierMenu();
+                case 3 -> treasurerMenu();
                 case 4 -> memberMenu();
                 case 0 -> running = false;
                 default -> IO.println("Ugyldigt valg, prøv venligst igen");
@@ -68,7 +72,7 @@ public class ConsoleUI {
         if (typedEmail.equalsIgnoreCase(chairman.getChairmanEmail()) && typedPassword.equals(chairman.getChairmanPassword())) {
 
             IO.println();
-            IO.println("Velkommen " + "😁");
+            IO.println("Velkommen, " + chairman.getName() + "😁");
 
             boolean inMenu = true;
 
@@ -205,26 +209,41 @@ public class ConsoleUI {
     }
 
     // Viser kassererens menu
-    private void cashierMenu() {
-        boolean inMenu = true;
+    private void treasurerMenu() {
 
-        while (inMenu) {
+        String typedEmail = IO.readln("Indtast din e-mail: ");
+        String typedPassword = IO.readln("Indtast din adgangskode: ");
+
+        if (typedEmail.equalsIgnoreCase(treasurer.getTreasurerEmail()) && typedPassword.equals(treasurer.getTreasurerPassword())) {
 
             IO.println();
-            IO.println("=== Kasserer Menu ===");
-            IO.println("1. Vis kontingenter");
-            IO.println("2. Vis medlemmer i restance");
-            IO.println("0. Tilbage til hovedmenu");
-            IO.println();
+            IO.println("Velkommen, " + treasurer.getName() + "😁");
 
-            int choice = readChoice("Vælg handling: ");
+            boolean inMenu = true;
 
-            switch (choice) {
-                case 1 -> showExpectedRevenue();
-                case 2 -> IO.println("Vis medlemmer i restance");
-                case 0 -> inMenu = false;
-                default -> IO.println("Ugyldigt valg, prøv igen");
+            while (inMenu) {
+
+                IO.println();
+                IO.println("=== Kasserer Menu ===");
+                IO.println("1. Vis kontingenter");
+                IO.println("2. Vis medlemmer i restance");
+                IO.println("0. Tilbage til hovedmenu");
+                IO.println();
+
+                int choice = readChoice("Vælg handling: ");
+
+                switch (choice) {
+                    case 1 -> showExpectedRevenue();
+                    case 2 -> IO.println("Vis medlemmer i restance");
+                    case 0 -> inMenu = false;
+                    default -> IO.println("Ugyldigt valg, prøv igen");
+                }
             }
+
+        } else {
+            IO.println();
+            IO.println("Forkert e-mail eller adgangskode. Prøv igen.");
+            IO.println();
         }
     }
 
