@@ -60,6 +60,14 @@ public class Member {
             return memberID;
         }
 
+    // Bruges når medlemmer indlæses fra fil, så de beholder deres ID og nye medlemmer ikke får et ID der er taget
+    public void setMemberID(int memberID) {
+        this.memberID = memberID;
+        if (memberID >= nextMemberID) {
+            nextMemberID = memberID + 1;
+        }
+    }
+
         public String getName () {
             return name;
         }

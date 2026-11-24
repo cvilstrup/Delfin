@@ -220,12 +220,20 @@ public class ConsoleUI {
             int choice = readChoice("Vælg handling: ");
 
             switch (choice) {
-                case 1 -> IO.println("Vis kontingenter");
+                case 1 -> showExpectedRevenue();
                 case 2 -> IO.println("Vis medlemmer i restance");
                 case 0 -> inMenu = false;
                 default -> IO.println("Ugyldigt valg, prøv igen");
             }
         }
+    }
+
+    // Viser kassereren det samlede forventede kontingent for alle medlemmer
+    private void showExpectedRevenue() {
+        IO.println();
+        IO.println("--- Forventet kontingent ---");
+        IO.println("Antal medlemmer: " + swimmingClub.getMembers().size());
+        IO.println("Samlet forventet kontingent: " + swimmingClub.calculateRevenue() + " kr.");
     }
 
     // Viser medlemmets menu

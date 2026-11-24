@@ -14,6 +14,7 @@ public class SwimmingClub {
         members.add(member);
     }
 
+
 // Henter array listen med alle medlemmer i svømmeklubben
     public List<Member> getMembers() {
         return members;
@@ -46,10 +47,14 @@ public class SwimmingClub {
         return seniorTeam;
     }
 
-    public void calculateRevenue(){
+
+
+// Lægger alle medlemmers kontingent sammen og returnerer det samlede forventede beløb
+    public int calculateRevenue(){
         int totalRevenue = 0;
         for (Member member : members){
             totalRevenue += member.getMembershipFee();
         }
+        return totalRevenue;
     }
 }

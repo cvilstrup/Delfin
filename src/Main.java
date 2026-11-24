@@ -8,14 +8,13 @@ void main() {
 // Her opretter vi ConsoleUI og giver den adgang til biblioteket
     ConsoleUI consoleUI = new ConsoleUI(swimmingClub, chairman, trainer);
 
-// Her kan medlemmerne af svmømmeklubben oprettes ...
-
-    //Member member1 = new Member("Thorkild Hansen", 111);//
-
-// Her kan medlemmerne tilføjes til svømmeklubben
-
-    //swimmingClub.addMember(member1);"//
+// Henter gemte medlemmer og svømmeresultater fra filerne
+    FileHandler fileHandler = new FileHandler();
+    fileHandler.loadAll(swimmingClub);
 
 // Starter ConesoleUI så brugerne kan bruge vores system
     consoleUI.run();
+
+// Gemmer alt når brugeren vælger "Afslut"
+    fileHandler.saveAll(swimmingClub);
 }
