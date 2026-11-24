@@ -227,14 +227,16 @@ public class ConsoleUI {
                 IO.println("=== Kasserer Menu ===");
                 IO.println("1. Vis kontingenter");
                 IO.println("2. Vis medlemmer i restance");
+                IO.println("3. Vis samlet forventet indkomst af kontigent");
                 IO.println("0. Tilbage til hovedmenu");
-                IO.println();
+
 
                 int choice = readChoice("Vælg handling: ");
 
                 switch (choice) {
                     case 1 -> IO.println("Vis kontingenter");
                     case 2 -> IO.println("Vis medlemmer i restance");
+                    case 3 -> IO.println("Vis samlet forventet indkomst af kontigent" +  + "kr.");
                     case 0 -> inMenu = false;
                     default -> IO.println("Ugyldigt valg, prøv igen");
                 }
@@ -244,6 +246,9 @@ public class ConsoleUI {
             IO.println();
             IO.println("Forkert e-mail eller adgangskode. Prøv igen.");
             IO.println();
+        }
+
+
         }
     }
 

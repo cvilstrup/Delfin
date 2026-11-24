@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class SwimmingClub {
+public class  SwimmingClub {
 
     private JuniorTeam juniorTeam = new JuniorTeam(new Trainer(), "Juniorhold");
     private SeniorTeam seniorTeam = new SeniorTeam(new Trainer(), "Seniorhold");
@@ -46,10 +46,11 @@ public class SwimmingClub {
         return seniorTeam;
     }
 
-    public void calculateRevenue(){
+    public int calculateRevenue(){
         int totalRevenue = 0;
         for (Member member : members){
             totalRevenue += member.getMembershipFee();
+            return totalRevenue;
         }
     }
 }
