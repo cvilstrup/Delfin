@@ -160,13 +160,20 @@ public class FileHandler {
 
     // Bruger name() i stedet for toString(), fordi toString() giver det danske navn som valueOf() ikke kan læse
     private String disciplinesToText(CompetitionSwimmer swimmer) {
+        // Starter med en tom tekst, som disciplinerne bygges ind i én ad gangen
         StringBuilder text = new StringBuilder();
         for (SwimmingDiscipline discipline : swimmer.getDisciplines()) {
+
+            // Sætter kun komma, hvis der allerede står en disciplin, så teksten ikke starter med ","
             if (!text.isEmpty()) {
                 text.append(",");
             }
+
+            // Tilføjer disciplinens enum-navn, f.eks. "CRAWL"
             text.append(discipline.name());
         }
+
+        // Laver StringBuilder om til en almindelig String, f.eks. "CRAWL,BUTTERFLY"
         return text.toString();
     }
 
