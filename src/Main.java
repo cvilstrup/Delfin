@@ -9,7 +9,7 @@ void main() {
     }
     Chairman chairman = new Chairman(env.getProperty("CHAIRMAN_EMAIL"), env.getProperty("CHAIRMAN_PASSWORD"));
     Treasurer treasurer = new Treasurer(env.getProperty("TREASURER_EMAIL"), env.getProperty("TREASURER_PASSWORD"));
-    Trainer trainer = new Trainer();
+    Trainer trainer = new Trainer(env.getProperty("TRAINER_EMAIL"), env.getProperty("TRAINER_PASSWORD"));
     
 // Her bliver svømmeklubben oprettet
     SwimmingClub swimmingClub = new SwimmingClub();;

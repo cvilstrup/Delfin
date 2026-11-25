@@ -1,7 +1,17 @@
 public class Trainer {
     private String name = "Hr. Trænermand";
-    private final String trainerEmail = "sejtræner@delfin.sk.dk";
-    private final String trainerPassword = "RuleAndConquer_69!";
+    private String trainerEmail;
+    private String trainerPassword;
+
+    Trainer(String trainerEmail, String trainerPassword){
+        this.trainerEmail=trainerEmail;
+        this.trainerPassword=trainerPassword;
+        this.name=name;
+    }
+
+    Trainer(){
+      this.name=name;
+    }
 
     public String getName() {
         return name;
