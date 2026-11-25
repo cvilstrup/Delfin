@@ -1,30 +1,24 @@
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.ArrayList;
 
 public class CompetitionSwimmer extends Member {
-    private Team team;
+    private JuniorTeam juniorTeam;
+    private SeniorTeam seniorTeam;
     private ArrayList<SwimmingDiscipline> disciplines = new ArrayList<>();
     private ArrayList<SwimResult> swimResults = new ArrayList<>();
 
     public CompetitionSwimmer(String name, LocalDate birthday, String email, String password, LocalDate renewalDate, LocalDate memberPaymentDue,
                               JuniorTeam juniorTeam, SeniorTeam seniorTeam) {
         super(name, birthday, email, password, renewalDate, memberPaymentDue);
-        calculateTeam(juniorTeam, seniorTeam);
-    }
-
-    private void calculateTeam(JuniorTeam juniorTeam, SeniorTeam seniorTeam) {
-        int age = Period.between(getBirthday(), LocalDate.now()).getYears();
-        if (age < 18) {
-            team = juniorTeam;
-        } else {
-            team = seniorTeam;
-        }
-        team.addMember(this);
+        this.juniorTeam = juniorTeam;
+        this.seniorTeam=seniorTeam;
     }
 
     public Team getTeam() {
-        return team;
+        if (getAge() < 18) {
+            return juniorTeam;
+        }
+        return seniorTeam;
     }
 
     public void addDiscipline(SwimmingDiscipline discipline) {
@@ -47,7 +41,7 @@ public class CompetitionSwimmer extends Member {
 
     @Override
     public String toString() {
-        String teamName = (team instanceof JuniorTeam) ? "Junior" : "Senior";
+        String teamName = (getTeam() instanceof JuniorTeam) ? "Junior" : "Senior";
 
         String baseInfo = super.toString().replace("Almindeligt medlem", "Konkurrencesvømmer");
 

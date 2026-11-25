@@ -52,9 +52,13 @@ public class Member {
         throw new IllegalStateException("Unknown membership status");
     }
 
-//    public int getMembershipFee() {
-//        return membershipFee;
-//    }
+    public int getMembershipFee() {
+        return calculateMemberFee();
+    }
+
+    public int getAge(){
+        return Period.between(getBirthday(), LocalDate.now()).getYears();
+    }
 
     public int getMemberID () {
             return memberID;
@@ -91,10 +95,6 @@ public class Member {
         public void setMembershipStatus(MembershipStatus membershipStatus){
             this.membershipStatus = membershipStatus;
             this.membershipFee = calculateMemberFee();
-        }
-
-        public int getMembershipFee(){
-        return membershipFee;
         }
 
     public LocalDate getRenewalDate() {

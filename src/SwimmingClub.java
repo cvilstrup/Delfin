@@ -49,6 +49,8 @@ public class SwimmingClub {
 
 
 
+
+
 // Lægger alle medlemmers kontingent sammen og returnerer det samlede forventede beløb
     public int calculateRevenue(){
         int totalRevenue = 0;

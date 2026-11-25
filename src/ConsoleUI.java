@@ -590,12 +590,6 @@ public class ConsoleUI {
 
                         if (answer.equalsIgnoreCase("JA")) {
 
-                            CompetitionSwimmer oldSwimmer = (CompetitionSwimmer) foundMember;
-
-                            if (oldSwimmer.getTeam() != null) {
-                                oldSwimmer.getTeam().removeMember(oldSwimmer);
-                            }
-
                             Member regularMember = new Member(
                                     foundMember.getName(),
                                     foundMember.getBirthday(),
