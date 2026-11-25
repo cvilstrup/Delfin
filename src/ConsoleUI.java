@@ -254,6 +254,7 @@ public class ConsoleUI {
 
     // Viser medlemmets menu
     private void memberMenu() {
+
         if (swimmingClub.members.isEmpty()) {
             IO.println();
             IO.println("Der eksisterer ingen medlemmer i systemet endnu.");
