@@ -48,7 +48,7 @@ public class SwimmingClub {
     }
 
     public boolean isEmailTaken(String email) {
-        for (Member member : members) { // Erstat 'Member' med din medlemsklasse
+        for (Member member : members) {
             if (member.getEmail().equalsIgnoreCase(email)) {
                 return true;
             }

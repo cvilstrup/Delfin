@@ -128,6 +128,9 @@ public class ConsoleUI {
 
 // Lader formanden registrere et nyt medlem
     private void registerMember() {
+
+        boolean doubleMemberEmail = false;
+
         IO.println();
         IO.println("--- Opret medlem ---");
 
@@ -137,15 +140,21 @@ public class ConsoleUI {
         //Modtager fødselsdag fra brugeren
         LocalDate birthday = readChoiceBirthday("Indtast fødselsdag (DD-MM-ÅÅÅÅ): ");
 
-        //Modtager email fra brugeren
-        String email = IO.readln("Indtast email: ");
+        String email = "";
+        String password = "";
 
-        //Modtager et kodeord fra brugeren
-        String password = IO.readln("Opret og indtast adgangskode: ");
+        while(!doubleMemberEmail) {
+            //Modtager email fra brugeren
+            email = IO.readln("Indtast email: ");
+            //Modtager et kodeord fra brugeren
+            password = IO.readln("Opret og indtast adgangskode: ");
 
-        if(swimmingClub.isEmailTaken(email)){
-            IO.println("Denne email er allerede i brug. Brug venligst en anden");
-            return;
+            if (swimmingClub.isEmailTaken(email)) {
+                IO.println();
+                IO.println("Denne email er allerede i brug. Brug venligst en anden");
+            } else {
+                doubleMemberEmail = true;
+            }
         }
 
         String isCompetitiveSwimmer = readCompetitiveChoice();
