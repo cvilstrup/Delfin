@@ -7,7 +7,7 @@ public class SwimmingClub {
     private SeniorTeam seniorTeam = new SeniorTeam(new Trainer(), "Seniorhold");
 
 // Opretter ArrayLists til at holde styr på swømmeklubbens medlemmer ...
-    public List<Member> members = new ArrayList<>();
+    private List<Member> members = new ArrayList<>();
 
 // Tilføjer et medlem til svømmeklubbens liste over medlemmer
     public void addMember(Member member) {
@@ -60,7 +60,7 @@ public class SwimmingClub {
     public int calculateRevenue(){
         int totalRevenue = 0;
         for (Member member : members){
-            totalRevenue += member.getMembershipFee();
+            totalRevenue += member.getMembership().getMembershipFee();
         }
         return totalRevenue;
     }
