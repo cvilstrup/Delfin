@@ -14,6 +14,11 @@ class ChairmanTest {
     }
 
     @Test
+    void getChairmanName(){
+        assertEquals("Big Bossman",chairman.getName());
+    }
+
+    @Test
     void getChairmanEmail() {
         assertEquals("denstoreformand@delfin.sk.dk",chairman.getChairmanEmail());
     }
