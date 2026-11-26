@@ -6,11 +6,11 @@ public class Trainer {
     Trainer(String trainerEmail, String trainerPassword){
         this.trainerEmail=trainerEmail;
         this.trainerPassword=trainerPassword;
-        this.name=name;
+        this.name = name;
     }
 
     Trainer(){
-      this.name=name;
+      this.name = name;
     }
 
     public String getName() {
