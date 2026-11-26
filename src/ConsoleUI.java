@@ -143,6 +143,11 @@ public class ConsoleUI {
         //Modtager et kodeord fra brugeren
         String password = IO.readln("Opret og indtast adgangskode: ");
 
+        if(swimmingClub.isEmailTaken(email)){
+            IO.println("Denne email er allerede i brug. Brug venligst en anden");
+            return;
+        }
+
         String isCompetitiveSwimmer = readCompetitiveChoice();
         LocalDate renewalDate = LocalDate.now();
         LocalDate memberPaymentDue = LocalDate.now().plusDays(14);

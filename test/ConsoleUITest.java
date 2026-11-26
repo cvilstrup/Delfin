@@ -17,6 +17,7 @@ class ConsoleUITest {
     private Trainer trainer;
     private Treasurer treasurer;
 
+    //De her variabler oprettes til at programmet kan overtage tastaturen og køre uden at brugeren selv skal indtaste noget
     private final InputStream originalIn = System.in;
     private final PrintStream originalOut = System.out;
     private ByteArrayOutputStream outputStream;
@@ -33,6 +34,7 @@ class ConsoleUITest {
         System.setOut(new PrintStream(outputStream));
     }
 
+    //Rydder op efter hver test metode
     @AfterEach
     void tearDown() {
         System.setIn(originalIn);
@@ -41,6 +43,7 @@ class ConsoleUITest {
 
     @Test
     void run() {
+        //Istedet for at brugeren skriver det fortæller vi programmet hvad den skal skrive for os
         String simulatedInput = "0\n";
         System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
 

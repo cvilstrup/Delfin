@@ -47,9 +47,14 @@ public class SwimmingClub {
         return seniorTeam;
     }
 
-
-
-
+    public boolean isEmailTaken(String email) {
+        for (Member member : members) { // Erstat 'Member' med din medlemsklasse
+            if (member.getEmail().equalsIgnoreCase(email)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 // Lægger alle medlemmers kontingent sammen og returnerer det samlede forventede beløb
     public int calculateRevenue(){
