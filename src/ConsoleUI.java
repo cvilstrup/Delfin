@@ -577,7 +577,7 @@ public class ConsoleUI {
                     IO.println("Fejl: Det var ikke muligt at ændre medlemsskabet");
 
                 }else{
-                    foundMember.getMembership().setMembershipStatus(newMembershipStatus, foundMember.getBirthday());
+                    foundMember.getMembership().setMembershipStatus(newMembershipStatus);
                     IO.println();
                     IO.println( foundMember.getName() +"'s medlemsstatus er nu ændret til " + newMembershipStatus);
                 }

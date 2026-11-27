@@ -2,9 +2,8 @@ import java.time.LocalDate;
 import java.time.Period;
 
 public class Membership {
-
+    private LocalDate birthday;
     private MembershipStatus membershipStatus;
-    private int membershipFee;
     private LocalDate renewalDate;
     private LocalDate memberPaymentDue;
 
@@ -12,10 +11,10 @@ public class Membership {
         this.renewalDate = renewalDate;
         this.memberPaymentDue = memberPaymentDue;
         this.membershipStatus = MembershipStatus.ACTIVE;
-        this.membershipFee = calculateMemberFee(birthday);
+        this.birthday=birthday;
     }
 
-    public int calculateMemberFee(LocalDate birthday) {
+    public int calculateMemberFee() {
         int passiveMembershipFee = 500;
         int over18MembershipFee = 1600;
         int under18MembershipFee = 1000;
@@ -39,16 +38,15 @@ public class Membership {
     }
 
     public int getMembershipFee() {
-        return membershipFee;
+        return calculateMemberFee();
     }
 
     public MembershipStatus getMembershipStatus() {
         return membershipStatus;
     }
 
-    public void setMembershipStatus(MembershipStatus membershipStatus, LocalDate birthday) {
+    public void setMembershipStatus(MembershipStatus membershipStatus) {
         this.membershipStatus = membershipStatus;
-        this.membershipFee = calculateMemberFee(birthday);
     }
 
     public LocalDate getRenewalDate() {
