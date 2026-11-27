@@ -383,8 +383,22 @@ public class ConsoleUI {
                         chosenDiscipline = disciplines.get(choice - 1);
                     }
 
-                    IO.println();
-                    double time = Double.parseDouble(IO.readln("Indtast tid i sekunder for " + chosenDiscipline + ": "));
+                    double time = 0;
+                    boolean validTime = false;
+
+                    while (!validTime) {
+                        try {
+                            time = Double.parseDouble(IO.readln("Indtast tid i sekunder for " + chosenDiscipline + ": "));
+                            if(time <= 0.0){
+                                IO.println("Resultatet kan ikke være 0 eller mindre");
+                            }else{
+                                validTime = true;
+                            }
+
+                        } catch (NumberFormatException e) {
+                            IO.println("Ugyldigt tegn. Brug ikke bogstaver og/eller brug punktum i stedet for komma (f.eks. 25.43).");
+                        }
+                    }
                     SwimResult result = new SwimResult(chosenDiscipline, time, LocalDate.now());
                     swimmer.addSwimResult(result);
 
@@ -605,12 +619,15 @@ public class ConsoleUI {
                         if (answer.equalsIgnoreCase("JA")) {
 
                             Member regularMember = new Member(
+                                    foundMember.getMemberID(),
                                     foundMember.getName(),
                                     foundMember.getBirthday(),
                                     foundMember.getEmail(),
                                     foundMember.getPassword(),
                                     foundMember.getRenewalDate(),
-                                    foundMember.getmemberPaymentDue()
+                                    foundMember.getmemberPaymentDue(),
+                                    foundMember.getMembershipStatus(),
+                                    foundMember.getSwimResults()
                             );
 
                             int index = swimmingClub.members.indexOf(foundMember);
@@ -629,12 +646,15 @@ public class ConsoleUI {
                         if (answer.equalsIgnoreCase("JA")) {
 
                             CompetitionSwimmer newSwimmer = new CompetitionSwimmer(
+                                    foundMember.getMemberID(),
                                     foundMember.getName(),
                                     foundMember.getBirthday(),
                                     foundMember.getEmail(),
                                     foundMember.getPassword(),
                                     foundMember.getRenewalDate(),
                                     foundMember.getmemberPaymentDue(),
+                                    foundMember.getMembershipStatus(),
+                                    foundMember.getSwimResults(),
                                     swimmingClub.getJuniorTeam(),
                                     swimmingClub.getSeniorTeam()
                             );
