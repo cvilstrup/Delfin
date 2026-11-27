@@ -55,13 +55,26 @@ public class MembershipTest {
     }
 
     @Test
+    void testWhenMembershipBecomesActiveAfterBeingPassivePaymentFeeChanges(){
+        membership.setMembershipStatus(MembershipStatus.PASSIVE,LocalDate.now().minusYears(20));
+        assertEquals(500,membership.getMembershipFee());
+        membership.setMembershipStatus(MembershipStatus.ACTIVE,LocalDate.now().minusYears(20));
+        assertEquals(1600,membership.getMembershipFee());
+    }
+
+    @Test
     void payingMovesNextPayment1YearAhead(){
-        Member member = new Member(
-                "Test Testesen",
-                LocalDate.now().minusYears(30),   // birthday: 30 år gammel
-                "test@delfin.dk",
-                "Kode123",
-                LocalDate.now().plusYears(1),     // renewalDate
-                LocalDate.now().plusMonths(1));   // memberPaymentDue
+        LocalDate before = membership.getMemberPaymentDue();
+        membership.payMembershipFee();
+        assertEquals(before.plusYears(1), membership.getMemberPaymentDue());
+    }
+    @Test
+    void membershipFeeChangesWhenAgeChanges(){
+            membership = new Membership(
+                    LocalDate.now().plusYears(0),
+                    LocalDate.now().plusMonths(0),
+                    LocalDate.now().minusYears(17));
+        assertEquals(1000, membership.calculateMemberFee(LocalDate.now()));
+        assertEquals(1600, membership.calculateMemberFee(LocalDate.now().plusYears(1)));
     }
 }
