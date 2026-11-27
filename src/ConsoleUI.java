@@ -86,6 +86,7 @@ public class ConsoleUI {
                 IO.println("2. Vis medlemmer");
                 IO.println("3. Juster medlemskabstype for et medlem");
                 IO.println("4. Juster konkurrence rolle");
+                IO.println("5. Fjern Medlem");
                 IO.println("0. Tilbage til hovedmenu");
                 IO.println();
 
@@ -96,6 +97,7 @@ public class ConsoleUI {
                     case 2 -> showMembers();
                     case 3 -> editMembershipStatus();
                     case 4 -> editCompetitionRole();
+                    case 5 -> removeMember();
                     case 0 -> inMenu = false;
                     default -> IO.println("Ugyldigt valg, prøv igen");
                 }
@@ -181,6 +183,43 @@ public class ConsoleUI {
         IO.println();
         IO.println("Medlemmet blev oprettet: \n" + member);
     }
+    private void removeMember() {
+        Boolean inMenu = true;
+        while(inMenu) {
+            IO.println();
+            IO.println("Fjern Medlem");
+            if (swimmingClub.getMembers().isEmpty()){
+                IO.println("Der eksistere ikke nogen medlemmer i svømmeklubben");
+                return;
+            }
+            int typeID = readChoice("Indtast medlemmets ID eller tryk 0 for at gå tilbage");
+            if (typeID== 0) {
+                inMenu = false;
+                continue;
+            }
+            Member foundMember = swimmingClub.getMember(typeID);
+            if (foundMember != null) {
+                IO.println();
+                IO.println("Medlem fundet:");
+                IO.println("Navn: " + foundMember.getName());
+                IO.println("Medlems-ID " + foundMember.getMemberID());
+                IO.println("E-mail: " + foundMember.getEmail());
+                IO.println("Medlemsstatus: " + foundMember.getMembership().getMembershipStatus());
+                String answer = IO.readln("Er du sikker på, at du vil fjerne medlemm Ja/Nej");
+                if(answer.equalsIgnoreCase ("Ja")){
+                    swimmingClub.removeMember(foundMember);
+                    IO.println();
+                    IO.println(foundMember.getName() + " Er nu blevet fjernet fra svømmeklubben");
+                } else {
+                    IO.println();
+                    IO.println("Medlemmet er ikke blevet fjernet");
+                }
+                inMenu = false;
+            } else {
+                IO.println();
+                IO.println("Intet medlem er fundet med dette ID. Prøv igen");
+            }
+        }}
 
     private void trainerMenu(){
 

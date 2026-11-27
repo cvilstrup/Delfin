@@ -159,8 +159,7 @@ class SwimmingClubTest {
         );
 
         passiveMember.getMembership().setMembershipStatus(
-                MembershipStatus.PASSIVE,
-                passiveMember.getBirthday()
+                MembershipStatus.PASSIVE
         );
 
         swimmingClub.addMember(activeMember);

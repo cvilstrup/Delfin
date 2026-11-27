@@ -64,4 +64,8 @@ public class SwimmingClub {
         }
         return totalRevenue;
     }
+    public void removeMember(Member member){
+        members.remove(member);
+    }
+
 }
