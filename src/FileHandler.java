@@ -123,7 +123,7 @@ public class FileHandler {
 
         // Konstruktøren giver altid et nyt ID og status ACTIVE, så de gemte værdier sættes bagefter
         member.setMemberID(memberID);
-        member.getMembership().setMembershipStatus(status, birthday);
+        member.getMembership().setMembershipStatus(status);
         return member;
     }
 
