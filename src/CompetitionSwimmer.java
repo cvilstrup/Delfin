@@ -5,11 +5,16 @@ public class CompetitionSwimmer extends Member {
     private JuniorTeam juniorTeam;
     private SeniorTeam seniorTeam;
     private ArrayList<SwimmingDiscipline> disciplines = new ArrayList<>();
-    private ArrayList<SwimResult> swimResults = new ArrayList<>();
 
     public CompetitionSwimmer(String name, LocalDate birthday, String email, String password, LocalDate renewalDate, LocalDate memberPaymentDue,
                               JuniorTeam juniorTeam, SeniorTeam seniorTeam) {
         super(name, birthday, email, password, renewalDate, memberPaymentDue);
+        this.juniorTeam = juniorTeam;
+        this.seniorTeam = seniorTeam;
+    }
+
+    public CompetitionSwimmer(int existingMemberID, String name, LocalDate birthday, String email, String password, LocalDate renewalDate, LocalDate memberPaymentDue, MembershipStatus membershipStatus, ArrayList<SwimResult> swimResults, JuniorTeam juniorTeam, SeniorTeam seniorTeam) {
+        super(existingMemberID, name, birthday, email, password, renewalDate, memberPaymentDue, membershipStatus, swimResults);
         this.juniorTeam = juniorTeam;
         this.seniorTeam=seniorTeam;
     }
@@ -27,16 +32,12 @@ public class CompetitionSwimmer extends Member {
         }
     }
 
-    public void addSwimResult(SwimResult result) {
-        swimResults.add(result);
-    }
-
-    public ArrayList<SwimResult> getSwimResults() {
-        return swimResults;
-    }
-
     public ArrayList<SwimmingDiscipline> getDisciplines() {
         return disciplines;
+    }
+
+    public void addSwimResult(SwimResult result) {
+        getSwimResults().add(result);
     }
 
     @Override

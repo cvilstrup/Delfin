@@ -1,5 +1,9 @@
+import java.text.Format;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Locale;
 
 public class Member {
     private int memberID;
@@ -9,14 +13,37 @@ public class Member {
     private String password;
     private Membership membership;
 
+    private ArrayList<SwimResult> swimResults = new ArrayList<>();
+
     private static int nextMemberID = 1;
+
     public Member(String name, LocalDate birthday, String email, String password, LocalDate renewalDate, LocalDate memberPaymentDue) {
+        this.memberID = nextMemberID++;
         this.name = name;
         this.birthday = birthday;
         this.email = email;
         this.password = password;
-        this.membership = new Membership(renewalDate, memberPaymentDue, birthday);
-        memberID = nextMemberID++;
+        this.renewalDate = renewalDate;
+        this.memberPaymentDue = memberPaymentDue;
+        this.membershipStatus = MembershipStatus.ACTIVE;
+        membershipFee = calculateMemberFee();
+    }
+
+    public Member(int existingMemberID, String name, LocalDate birthday, String email, String password, LocalDate renewalDate, LocalDate memberPaymentDue, MembershipStatus membershipStatus, ArrayList<SwimResult> swimResults) {
+        this.memberID = existingMemberID;
+        this.name = name;
+        this.birthday = birthday;
+        this.email = email;
+        this.password = password;
+        this.renewalDate = renewalDate;
+        this.memberPaymentDue = memberPaymentDue;
+        this.membershipStatus = membershipStatus;
+        this.membershipFee = calculateMemberFee();
+        this.swimResults = (swimResults != null) ? swimResults : new ArrayList<>();
+    }
+
+    public ArrayList<SwimResult> getSwimResults() {
+        return swimResults;
     }
 
     public int getAge(){
@@ -57,6 +84,7 @@ public class Member {
 
     @Override
     public String toString(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.forLanguageTag("da-DK"));
         return String.format("""
                 Navn: %s
                 Medlems-ID: %d
@@ -65,7 +93,7 @@ public class Member {
                 Kodeord: %s
                 Status af medlemsskab: %s
                 Betalingsfrist: %s
-                Type medlem: Almindeligt medlem""",name, memberID, birthday, email, password, membership.getMembershipStatus(), membership.getMemberPaymentDue());
+                Type medlem: Almindeligt medlem""",name, memberID, birthday.format(formatter), email, password, membershipStatus, memberPaymentDue);
         }
 
     }
