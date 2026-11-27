@@ -23,10 +23,7 @@ public class Member {
         this.birthday = birthday;
         this.email = email;
         this.password = password;
-        this.renewalDate = renewalDate;
-        this.memberPaymentDue = memberPaymentDue;
-        this.membershipStatus = MembershipStatus.ACTIVE;
-        membershipFee = calculateMemberFee();
+        this.membership = new Membership(renewalDate, memberPaymentDue, birthday);
     }
 
     public Member(int existingMemberID, String name, LocalDate birthday, String email, String password, LocalDate renewalDate, LocalDate memberPaymentDue, MembershipStatus membershipStatus, ArrayList<SwimResult> swimResults) {
@@ -35,10 +32,8 @@ public class Member {
         this.birthday = birthday;
         this.email = email;
         this.password = password;
-        this.renewalDate = renewalDate;
-        this.memberPaymentDue = memberPaymentDue;
-        this.membershipStatus = membershipStatus;
-        this.membershipFee = calculateMemberFee();
+        this.membership = new Membership(renewalDate, memberPaymentDue, birthday);
+        this.membership.setMembershipStatus(membershipStatus);
         this.swimResults = (swimResults != null) ? swimResults : new ArrayList<>();
     }
 
@@ -93,7 +88,7 @@ public class Member {
                 Kodeord: %s
                 Status af medlemsskab: %s
                 Betalingsfrist: %s
-                Type medlem: Almindeligt medlem""",name, memberID, birthday.format(formatter), email, password, membershipStatus, memberPaymentDue);
+                Type medlem: Almindeligt medlem""",name, memberID, birthday.format(formatter), email, password, membership.getMembershipStatus(), membership.getMemberPaymentDue().format(formatter));
         }
 
     }

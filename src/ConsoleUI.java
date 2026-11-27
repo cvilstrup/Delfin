@@ -624,9 +624,9 @@ public class ConsoleUI {
                                     foundMember.getBirthday(),
                                     foundMember.getEmail(),
                                     foundMember.getPassword(),
-                                    foundMember.getRenewalDate(),
-                                    foundMember.getmemberPaymentDue(),
-                                    foundMember.getMembershipStatus(),
+                                    foundMember.getMembership().getRenewalDate(),
+                                    foundMember.getMembership().getMemberPaymentDue(),
+                                    foundMember.getMembership().getMembershipStatus(),
                                     foundMember.getSwimResults()
                             );
 
@@ -651,9 +651,9 @@ public class ConsoleUI {
                                     foundMember.getBirthday(),
                                     foundMember.getEmail(),
                                     foundMember.getPassword(),
-                                    foundMember.getRenewalDate(),
-                                    foundMember.getmemberPaymentDue(),
-                                    foundMember.getMembershipStatus(),
+                                    foundMember.getMembership().getRenewalDate(),
+                                    foundMember.getMembership().getMemberPaymentDue(),
+                                    foundMember.getMembership().getMembershipStatus(),
                                     foundMember.getSwimResults(),
                                     swimmingClub.getJuniorTeam(),
                                     swimmingClub.getSeniorTeam()
