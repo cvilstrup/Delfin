@@ -43,9 +43,9 @@ public class FileHandler {
                         member.getBirthday().toString(),
                         member.getEmail(),
                         member.getPassword(),
-                        member.getMembershipStatus().name(),
-                        member.getRenewalDate().toString(),
-                        member.getmemberPaymentDue().toString(),
+                        member.getMembership().getMembershipStatus().name(),
+                        member.getMembership().getRenewalDate().toString(),
+                        member.getMembership().getMemberPaymentDue().toString(),
                         disciplines));
                 writer.newLine();
             }
@@ -123,7 +123,7 @@ public class FileHandler {
 
         // Konstruktøren giver altid et nyt ID og status ACTIVE, så de gemte værdier sættes bagefter
         member.setMemberID(memberID);
-        member.setMembershipStatus(status);
+        member.getMembership().setMembershipStatus(status, birthday);
         return member;
     }
 
