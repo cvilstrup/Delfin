@@ -269,7 +269,7 @@ public class ConsoleUI {
     // Viser medlemmets menu
     private void memberMenu() {
 
-        if (swimmingClub.members.isEmpty()) {
+        if (swimmingClub.getMembers().isEmpty()) {
             IO.println();
             IO.println("Der eksisterer ingen medlemmer i systemet endnu.");
             return;
@@ -284,7 +284,7 @@ public class ConsoleUI {
             }
             String typedPassword = IO.readln("Indtast din adgangskode: ");
 
-            for (Member member : swimmingClub.members) {
+            for (Member member : swimmingClub.getMembers()) {
                 if (typedEmail.equalsIgnoreCase(member.getEmail()) && typedPassword.equals(member.getPassword())) {
                     foundMember = member;
                     break;
@@ -323,17 +323,17 @@ public class ConsoleUI {
 
     private void showIndividualMemberInfo(Member foundMember) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.forLanguageTag("da-DK"));
-        String nextRenewal = foundMember.getRenewalDate().plusYears(1).format(formatter);
+        String nextRenewal = foundMember.getMembership().getRenewalDate().plusYears(1).format(formatter);
 
         IO.println();
         IO.println("Medlems-ID: " + foundMember.getMemberID());
         IO.println("Fødselsdag: " + foundMember.getBirthday().format(formatter));
-        IO.println("Medlemsstatus: " + foundMember.getMembershipStatus());
+        IO.println("Medlemsstatus: " + foundMember.getMembership().getMembershipStatus());
         IO.println();
-        IO.println("Du betaler " + foundMember.getMembershipFee() + " kr. i kontingent. Dit abonnement fornyes d. " + nextRenewal);
-        IO.println("Betalingsfrist: " + foundMember.getmemberPaymentDue().format(formatter));
+        IO.println("Du betaler " + foundMember.getMembership().getMembershipFee() + " kr. i kontingent. Dit abonnement fornyes d. " + nextRenewal);
+        IO.println("Betalingsfrist: " + foundMember.getMembership().getMemberPaymentDue().format(formatter));
 
-        if (foundMember.getmemberPaymentDue().isBefore(LocalDate.now())) {
+        if (foundMember.getMembership().getMemberPaymentDue().isBefore(LocalDate.now())) {
             IO.println("Din betalingsfrist er overskredet. Betal venligst hurtigst muligt.");
         }
     }
@@ -351,7 +351,7 @@ public class ConsoleUI {
 
             Member foundMember = null;
 
-            for (Member member : swimmingClub.members) {
+            for (Member member : swimmingClub.getMembers()) {
                 if (typedEmail.equalsIgnoreCase(member.getEmail())) {
                     foundMember = member;
                     break;
@@ -420,7 +420,7 @@ public class ConsoleUI {
         IO.println("--- Registrerede svømmetider ---");
         boolean anyResultsFound = false;
 
-        for (Member member : swimmingClub.members) {
+        for (Member member : swimmingClub.getMembers()) {
 
             if (member instanceof CompetitionSwimmer swimmer) {
                 ArrayList<SwimResult> results = swimmer.getSwimResults();
@@ -465,7 +465,7 @@ public class ConsoleUI {
         for (SwimmingDiscipline discipline : SwimmingDiscipline.values()) {
             ArrayList<Map.Entry<CompetitionSwimmer, SwimResult>> bestInDiscipline = new ArrayList<>();
 
-            for (Member member : swimmingClub.members) {
+            for (Member member : swimmingClub.getMembers()) {
                 if (member instanceof CompetitionSwimmer swimmer) {
                     boolean swimmerIsJunior = swimmer.getTeam() instanceof JuniorTeam;
                     if (swimmerIsJunior != isJunior) {
@@ -513,14 +513,14 @@ public class ConsoleUI {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.forLanguageTag("da-DK"));
 
         IO.println();
-        IO.println("Du skal betale " + foundMember.getMembershipFee() + " kr. senest d. "
-                + foundMember.getmemberPaymentDue().format(formatter));
+        IO.println("Du skal betale " + foundMember.getMembership().getMembershipFee() + " kr. senest d. "
+                + foundMember.getMembership().getMemberPaymentDue().format(formatter));
         String answer = IO.readln("Vil du betale nu? (JA/NEJ): ");
 
         if (answer.equalsIgnoreCase("JA")) {
-            foundMember.payMembershipFee();
+            foundMember.getMembership().payMembershipFee();
             IO.println("Tak for din betaling! Din næste betalingsfrist er d. "
-                    + foundMember.getmemberPaymentDue().format(formatter));
+                    + foundMember.getMembership().getMemberPaymentDue().format(formatter));
         } else {
             IO.println("Der blev ikke foretaget nogen betaling.");
         }
@@ -560,7 +560,7 @@ public class ConsoleUI {
 
             Member foundMember = null;
 
-            for (Member member : swimmingClub.members) {
+            for (Member member : swimmingClub.getMembers()) {
                 if (typedEmail.equalsIgnoreCase(member.getEmail())) {
                     foundMember = member;
                     break;
@@ -570,19 +570,19 @@ public class ConsoleUI {
             if (foundMember != null) {
                 IO.println();
                 IO.println("Du er nu logget ind som: " + foundMember.getName());
-                IO.println(foundMember.getName() + " har et " + foundMember.getMembershipStatus() + " medlemskab");
+                IO.println(foundMember.getName() + " har et " + 	foundMember.getMembership().getMembershipStatus() + " medlemskab");
                 MembershipStatus newMembershipStatus = readNewMembershipStatusChoice();
 
                 if(newMembershipStatus == null) {
                     IO.println("Fejl: Det var ikke muligt at ændre medlemsskabet");
 
                 }else{
-                    foundMember.setMembershipStatus(newMembershipStatus);
+                    foundMember.getMembership().setMembershipStatus(newMembershipStatus, foundMember.getBirthday());
                     IO.println();
                     IO.println( foundMember.getName() +"'s medlemsstatus er nu ændret til " + newMembershipStatus);
                 }
                 inMenu = false;
-            } else if (swimmingClub.members.isEmpty()) {
+            } else if (swimmingClub.getMembers().isEmpty()) {
                 IO.println();
                 IO.println("Der eksisterer ingen medlemmer i svømmeklubben (endnu)");
                 IO.println();
@@ -599,7 +599,7 @@ public class ConsoleUI {
                 String typedEmail = IO.readln("Indtast konkurrence-svømmerens / medlemmets e-mail: ");
                 Member foundMember = null;
 
-                for (Member member : swimmingClub.members) {
+                for (Member member : swimmingClub.getMembers()) {
                     if (typedEmail.equalsIgnoreCase(member.getEmail())) {
                         foundMember = member;
                         break;
@@ -630,8 +630,8 @@ public class ConsoleUI {
                                     foundMember.getSwimResults()
                             );
 
-                            int index = swimmingClub.members.indexOf(foundMember);
-                            swimmingClub.members.set(index, regularMember);
+                            int index = swimmingClub.getMembers().indexOf(foundMember);
+                            swimmingClub.getMembers().set(index, regularMember);
 
                             IO.println();
                             IO.println(foundMember.getName() + " er nu ændret til almindeligt medlem.");
@@ -660,8 +660,8 @@ public class ConsoleUI {
                             );
                             chooseDisciplines(newSwimmer);
 
-                            int index = swimmingClub.members.indexOf(foundMember);
-                            swimmingClub.members.set(index, newSwimmer);
+                            int index = swimmingClub.getMembers().indexOf(foundMember);
+                            swimmingClub.getMembers().set(index, newSwimmer);
 
                             IO.println(foundMember.getName() + " er nu ændret til konkurrencesvømmer.");
                         } else if (answer.equalsIgnoreCase("NEJ")) {

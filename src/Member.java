@@ -11,10 +11,7 @@ public class Member {
     private LocalDate birthday;
     private String email;
     private String password;
-    private MembershipStatus membershipStatus; //aktiv eller passiv
-    private int membershipFee;
-    private LocalDate renewalDate;
-    private LocalDate memberPaymentDue;
+    private Membership membership;
 
     private ArrayList<SwimResult> swimResults = new ArrayList<>();
 
@@ -49,37 +46,6 @@ public class Member {
         return swimResults;
     }
 
-    public int calculateMemberFee() {
-        int passiveMembershipFee = 500;
-        int over18MembershipFee = 1600;
-        int under18MembershipFee = 1000;
-        int seniorMembershipFee = 1200;
-
-        int age = Period.between(getBirthday(), LocalDate.now()).getYears();
-
-        if (getMembershipStatus().equals(MembershipStatus.PASSIVE)) {
-            return passiveMembershipFee;
-        }
-
-        if (getMembershipStatus().equals(MembershipStatus.ACTIVE) && age < 18) {
-            return under18MembershipFee;
-        }
-
-        if (getMembershipStatus().equals(MembershipStatus.ACTIVE) && age >= 60) {
-            return seniorMembershipFee;
-        }
-
-        if (getMembershipStatus().equals(MembershipStatus.ACTIVE) && age >= 18) {
-            return over18MembershipFee;
-        }
-
-        throw new IllegalStateException("Unknown membership status");
-    }
-
-    public int getMembershipFee() {
-        return calculateMemberFee();
-    }
-
     public int getAge(){
         return Period.between(getBirthday(), LocalDate.now()).getYears();
     }
@@ -112,25 +78,8 @@ public class Member {
             return password;
         }
 
-        public MembershipStatus getMembershipStatus () {
-            return membershipStatus;
-        }
-
-        public void setMembershipStatus(MembershipStatus membershipStatus){
-            this.membershipStatus = membershipStatus;
-            this.membershipFee = calculateMemberFee();
-        }
-
-    public LocalDate getRenewalDate() {
-        return renewalDate;
-    }
-        public LocalDate getmemberPaymentDue(){
-        return memberPaymentDue;
-        }
-
-    // Betaler kontingentet og flytter betalingsfristen et år frem
-    public void payMembershipFee() {
-        memberPaymentDue = memberPaymentDue.plusYears(1);
+    public Membership getMembership() {
+        return membership;
     }
 
     @Override
