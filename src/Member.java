@@ -12,6 +12,10 @@ public class Member {
     private String email;
     private String password;
     private Membership membership;
+    private LocalDate renewalDate;
+    private LocalDate memberPaymentDue;
+    private MembershipStatus membershipStatus;
+    private double membershipFee;
 
     private ArrayList<SwimResult> swimResults = new ArrayList<>();
 
@@ -42,8 +46,32 @@ public class Member {
         this.swimResults = (swimResults != null) ? swimResults : new ArrayList<>();
     }
 
+    public double calculateMemberFee() {
+        if (membershipStatus == MembershipStatus.PASSIVE) {
+            return 500;
+        } else if (getAge() < 18) {
+            return 1000;
+        } else if (getAge() >= 60) {
+            return 1600 * 0.75;
+        } else {
+            return 1600;
+        }
+    }
+
     public ArrayList<SwimResult> getSwimResults() {
         return swimResults;
+    }
+
+    public LocalDate getRenewalDate() {
+        return renewalDate;
+    }
+
+    public LocalDate getMemberPaymentDue() {
+        return memberPaymentDue;
+    }
+
+    public MembershipStatus getMembershipStatus() {
+        return membershipStatus;
     }
 
     public int getAge(){
@@ -78,8 +106,13 @@ public class Member {
             return password;
         }
 
-    public Membership getMembership() {
-        return membership;
+        public Membership getMembership() {
+            return membership;
+        }
+
+    public void setMembershipStatus(MembershipStatus membershipStatus) {
+        this.membershipStatus = membershipStatus;
+        this.membershipFee = calculateMemberFee();
     }
 
     @Override
