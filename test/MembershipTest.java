@@ -74,7 +74,7 @@ public class MembershipTest {
                     LocalDate.now().plusYears(0),
                     LocalDate.now().plusMonths(0),
                     LocalDate.now().minusYears(17));
-        assertEquals(1000, membership.calculateMemberFee(LocalDate.now()));
+        assertEquals(1000, membership.calculateMemberFee());
         assertEquals(1600, membership.calculateMemberFee(LocalDate.now().plusYears(1)));
     }
 }
